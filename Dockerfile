@@ -1,10 +1,12 @@
 FROM pytorch/pytorch:2.11.0-cuda12.6-cudnn9-runtime@sha256:3bb77138e105723dd4ed760b82fb63d8310ae3a1afc58f76e0ecf0f776568d33 AS runtime
 ARG DEBIAN_FRONTEND=noninteractive
+# The official Ubuntu image uses system Python; changes stay inside this image.
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgomp1 xvfb xauth libgl1 libegl1 libgl1-mesa-dri libglib2.0-0 \
+    libgomp1 xvfb xauth libgl1 libegl1 libopengl0 libgl1-mesa-dri libglib2.0-0 \
     libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 \
     libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-shape0 \
-    libxcb-randr0 libx11-xcb1 libdbus-1-3 libfontconfig1 libfreetype6 libsm6 \
+    libxcb-randr0 libxcb-xinput0 libx11-xcb1 libdbus-1-3 libfontconfig1 libfreetype6 libsm6 \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/citrackastra
 # Reuse the official CUDA/PyTorch layers; the host supplies the NVIDIA driver.
