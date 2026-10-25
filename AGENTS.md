@@ -9,6 +9,6 @@
 - Preserve source pixels and instance IDs. Write new stores, tracked labels and tables. Refuse existing destinations and publish results only after all fields succeed.
 - Report model predictions separately from reference annotations and biological accuracy. Public smoke tests are compatibility checks, not independent accuracy benchmarks.
 - Download models explicitly into the ignored local `models/` directory. Inference must load local weights and must not silently download models.
-- Keep the headless Bilayers/BIOMERO workflow image separate from the optional model-cache image. Docker recipes are preparation only; do not build or publish images unless requested.
+- Keep the headless Bilayers/BIOMERO runtime separate from the model-cache image and assemble the complete workflow from those shared stages. Build or publish images only when requested. Validate the exact image artifacts, including offline model loading and both movie outputs, before publishing a workflow image.
 - GitHub Pages uses the visual style of CISegWeVisOneVL, dark by default, with a persistent Bright/Dark toggle. Scientific image colors must not change with the theme.
 - Run unit/integration tests and actual public-data inference locally before claiming validation. Record exact package/model versions, dataset calibration, hashes and limitations.
