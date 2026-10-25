@@ -30,7 +30,10 @@ def check(root):
     pages = {}
     for path in root.glob("*.html"):
         parsed = Page()
-        parsed.feed(path.read_text(encoding="utf-8"))
+        source = path.read_text(encoding="utf-8")
+        if any(bad in source for bad in ("\u00c2\u00b5", "\u00c2\u00b7", "\u00e2\u20ac", "\u00e2\u2020")):
+            raise ValueError(f"Corrupted UTF-8 display text in {path.name}")
+        parsed.feed(source)
         if not parsed.english or not parsed.theme:
             raise ValueError(f"Missing English language or theme control: {path.name}")
         pages[path] = parsed
