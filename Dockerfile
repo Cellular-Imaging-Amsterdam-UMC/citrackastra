@@ -14,6 +14,10 @@ WORKDIR /opt/citrackastra
 COPY pyproject.toml ./
 RUN pip install --no-cache-dir wheel setuptools \
     && SAM2_BUILD_CUDA=0 python -c "import subprocess,tomllib; p=tomllib.load(open('pyproject.toml','rb'))['project']; subprocess.check_call(['pip','install','--no-cache-dir','--no-build-isolation',*p['dependencies'],*p['optional-dependencies']['sam2'],*p['optional-dependencies']['movie']])"
+# xvfb-run must not be PID 1: Xvfb does not notify an init parent on startup.
+# Tini also forwards termination signals and reaps renderer child processes.
+RUN apt-get update && apt-get install -y --no-install-recommends tini \
+    && rm -rf /var/lib/apt/lists/*
 COPY README.md LICENSE NOTICE.md ./
 COPY third_party ./third_party
 COPY citrackastra ./citrackastra
@@ -35,7 +39,7 @@ LABEL org.opencontainers.image.title="CITrackastra runtime with movie support" \
       org.opencontainers.image.version="0.1.0" \
       org.opencontainers.image.revision=$VCS_REF \
       org.opencontainers.image.licenses="BSD-3-Clause"
-ENTRYPOINT ["/opt/citrackastra/movie_entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "-g", "--", "/opt/citrackastra/movie_entrypoint.sh"]
 CMD ["--model-dir", "/opt/models", "--infolder", "/data/in", "--outfolder", "/data/out"]
 
 FROM runtime AS tests
