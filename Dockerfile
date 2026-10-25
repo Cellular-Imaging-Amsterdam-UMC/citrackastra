@@ -22,7 +22,8 @@ COPY tools/movie_entrypoint.sh ./movie_entrypoint.sh
 # SAM2's optional CUDA extension is unnecessary for image features. Build against
 # the already installed CUDA PyTorch rather than downloading a second torch.
 RUN pip install --no-cache-dir --no-deps --no-build-isolation . \
-    && chmod +x /opt/citrackastra/movie_entrypoint.sh
+    && chmod +x /opt/citrackastra/movie_entrypoint.sh \
+    && ln -s /models /opt/models
 ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 \
     CITRACKASTRA_MODELS=/opt/models QT_QPA_PLATFORM=xcb LIBGL_ALWAYS_SOFTWARE=1 \
     MPLCONFIGDIR=/tmp/citrackastra-matplotlib XDG_CACHE_HOME=/tmp/citrackastra-cache

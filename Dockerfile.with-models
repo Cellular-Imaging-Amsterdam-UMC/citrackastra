@@ -2,5 +2,7 @@ ARG MODEL_IMAGE=cellularimagingcf/citrackastra-models:v0.1.0
 ARG RUNTIME_IMAGE=cellularimagingcf/w_citrackastra:v0.1.0-runtime
 FROM ${MODEL_IMAGE} AS models
 FROM ${RUNTIME_IMAGE}
-COPY --from=models /models /opt/models
+# Preserve the model layer's destination so Docker Hub can reuse its blob.
+# The runtime exposes this cache through /opt/models -> /models.
+COPY --from=models /models /models
 LABEL org.opencontainers.image.title="CITrackastra complete workflow with pretrained models and movies"

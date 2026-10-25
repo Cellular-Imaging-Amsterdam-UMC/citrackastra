@@ -14,6 +14,8 @@ The standard workflow image is assembled from the runtime and separate model
 image using `Dockerfile.with-models`. Movie support is headless: an internal
 Xvfb display and Mesa render the Divisualisation view; PyTorch still uses CUDA
 for tracking when requested. No interactive desktop or exposed web port is needed.
+The complete image reuses the model image's cache layer at `/models`, exposed
+through `/opt/models`, so pulling both images does not duplicate that layer.
 
 ## Run a segmented plate
 
