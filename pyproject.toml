@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "citrackastra"
+version = "0.1.0"
+description = "Calibrated OME-Zarr cell tracking with Trackastra for Bilayers and BIOMERO"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = "BSD-3-Clause"
+dependencies = [
+  "trackastra==0.5.6", "zarr>=3.1,<4", "numpy>=2,<3", "PyYAML>=6,<7", "psutil>=5.9", "huggingface-hub>=0.27,<3"
+]
+
+[project.optional-dependencies]
+sam2 = ["trackastra[etultra]==0.5.6"]
+movie = ["divisualisation==0.1.0", "napari>=0.8,<0.9", "PyQt6>=6.7", "imageio-ffmpeg>=0.5"]
+dev = ["pytest>=8,<9"]
+
+[project.scripts]
+citrackastra = "citrackastra.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["citrackastra*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = ["inference: real pretrained-model inference"]

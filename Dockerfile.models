@@ -1,0 +1,6 @@
+FROM scratch
+LABEL org.opencontainers.image.title="CITrackastra pretrained model cache"
+LABEL org.opencontainers.image.licenses="BSD-3-Clause AND Apache-2.0"
+COPY models/ /models/
+COPY third_party/ /licenses/
+COPY NOTICE.md /NOTICE.md

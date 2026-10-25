@@ -1,0 +1,133 @@
+citations:
+- name: CITrackastra
+  doi: https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra
+  license: BSD-3-Clause
+  description: Calibrated 2D time-series HCS plate tracking of existing instance segmentations.
+- name: Trackastra (Gallusser and Weigert, ECCV 2024)
+  doi: https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/09819.pdf
+  license: BSD-3-Clause
+  description: Transformer-based cell tracking for live-cell microscopy.
+docker_image:
+  org: cellularimagingcf
+  name: w_citrackastra
+  tag: v0.1.0
+  platform: linux/amd64
+algorithm_folder_name: citrackastra_inference
+exec_function:
+  name: generate_cli_command
+  cli_command: python wrapper.py
+  hidden_args:
+  - {cli_tag: --local, value: 'true', append_value: false, cli_order: 3}
+inputs:
+- name: infolder
+  type: image
+  label: Calibrated 2D time-series plates with instance labels
+  description: NGFF HCS plates only. Every field must have at least two timepoints, no non-singleton Z axis, and aligned calibrated instance labels. Segment upstream first. Standalone images and static plates are rejected.
+  cli_tag: --infolder
+  cli_order: 1
+  default: directory
+  optional: false
+  format: [zarr]
+  unique_string: [.ome.zarr]
+  folder_name: /data/in
+  file_count: multiple
+  section_id: inputs
+  mode: beginner
+  subtype: [grayscale, color]
+  depth: false
+  timepoints: true
+  tiled: false
+  pyramidal: true
+outputs:
+- name: outfolder
+  type: image
+  label: Tracked OME-Zarr plates
+  description: Each source produces a result directory containing its OME-Zarr with preserved source pixels, original labels and additional trajectory labels, plus SQLite, CSV and provenance. Configure recursive output discovery for BIOMERO.
+  cli_tag: --outfolder
+  cli_order: 2
+  default: directory
+  optional: false
+  format: [zarr]
+  unique_string: [__citrackastra.ome.zarr]
+  folder_name: /data/out
+  file_count: multiple
+  section_id: outputs
+  mode: beginner
+  subtype: [label]
+  depth: false
+  timepoints: true
+  tiled: false
+  pyramidal: false
+- name: tracking_database
+  type: measurement
+  label: Tracking database and CSV exports
+  description: Schema-1 SQLite database plus fields, tracks, observations and links CSVs inside each plate result directory.
+  cli_tag: "None"
+  default: ''
+  optional: true
+  format: [sqlite, csv]
+  unique_string: [tracking.sqlite, fields.csv, tracks.csv, observations.csv, links.csv]
+  folder_name: /data/out
+  file_count: multiple
+  section_id: outputs
+  mode: beginner
+- name: tracking_movie
+  type: file
+  label: Tracking and Divisualisation movies
+  description: Optional 2D tracking MP4 and Divisualisation spacetime MP4 per plate. Fields and label sets play sequentially. Requires the movie runtime; no independent ground-truth error scoring.
+  cli_tag: "None"
+  default: ''
+  optional: true
+  format: [mp4, json]
+  unique_string: [tracking_movie.mp4, spacetime_movie.mp4, movie.json]
+  folder_name: /data/out
+  file_count: multiple
+  section_id: outputs
+  mode: beginner
+display_only: []
+parameters:
+- name: model
+  type: dropdown
+  label: Pretrained tracking model
+  description: All models are restricted to 2D time-series plate fields. The SAM2 variant needs optional SAM2 packages and its cached backbone.
+  options:
+  - {label: General 2D, value: general_2d}
+  - {label: CTC (2D plate fields), value: ctc}
+  - {label: General 2D with SAM2 features, value: general_2d_w_SAM2_features}
+  default: general_2d
+  cli_tag: --model
+  cli_order: 10
+  optional: true
+  section_id: essential
+  mode: beginner
+- {name: labels, type: string, label: Instance label sets, description: 'all or comma-separated NGFF label names, for example labels_cells,labels_nuclei. Each field and label set is tracked independently.', default: all, cli_tag: --labels, cli_order: 11, optional: true, section_id: essential, mode: beginner}
+- {name: channel, type: integer, label: Image channel (one-based), default: 1, minimum: 1, cli_tag: --channel, cli_order: 12, optional: true, section_id: essential, mode: beginner}
+- name: mode
+  type: dropdown
+  label: Linking mode
+  description: Greedy permits binary divisions. No divisions is suitable when objects should remain one-to-one. ILP uses the optional solver stack installed by Trackastra and may use Gurobi if licensed.
+  options:
+  - {label: Greedy with divisions, value: greedy}
+  - {label: Greedy without divisions, value: greedy_nodiv}
+  - {label: Integer linear programming, value: ilp}
+  default: greedy
+  cli_tag: --mode
+  cli_order: 13
+  optional: true
+  section_id: essential
+  mode: beginner
+- name: device
+  type: dropdown
+  label: Compute device
+  options: [{label: Automatic, value: auto}, {label: NVIDIA CUDA, value: cuda}, {label: CPU, value: cpu}]
+  default: auto
+  cli_tag: --device
+  cli_order: 20
+  optional: true
+  section_id: advanced
+  mode: advanced
+- {name: max_memory_gb, type: float, label: Maximum estimated working memory (GiB), description: Conservative array preflight guard. Graph and model memory are additional; this is not a hard process memory limit., default: 4.0, minimum: 0.1, cli_tag: --max-memory-gb, cli_order: 21, optional: true, section_id: advanced, mode: advanced}
+- {name: workers, type: integer, label: Feature extraction workers, description: '0 uses the main process. Increase only within the allocated CPU budget.', default: 0, minimum: 0, cli_tag: --workers, cli_order: 22, optional: true, section_id: advanced, mode: advanced}
+- {name: batch_size, type: integer, label: Prediction batch size, default: 1, minimum: 1, cli_tag: --batch-size, cli_order: 23, optional: true, section_id: advanced, mode: advanced}
+- {name: movie, type: checkbox, label: Create tracking and spacetime movies, description: 'One conventional 2D MP4 and one Divisualisation spacetime MP4 per plate. Requires the optional movie runtime.', default: false, cli_tag: --movie, cli_order: 14, optional: true, append_value: true, section_id: essential, mode: beginner}
+- {name: movie_fps, type: integer, label: Movie playback FPS, description: Playback speed only; acquisition calibration is unchanged., default: 12, minimum: 1, maximum: 60, cli_tag: --movie-fps, cli_order: 24, optional: true, section_id: advanced, mode: advanced}

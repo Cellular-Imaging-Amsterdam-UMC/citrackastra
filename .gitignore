@@ -1,0 +1,17 @@
+.venv/
+.venv-movie/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+models/*
+!models/.gitkeep
+publicdata/
+inputfolder/*
+!inputfolder/.gitkeep
+outputfolder/*
+!outputfolder/.gitkeep
+test-results/
+work/
+embeddings/
+.env

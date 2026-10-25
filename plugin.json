@@ -1,0 +1,31 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "citrackastra",
+  "version": "0.1.0",
+  "description": "Agent skills for calibrated 2D time-series plate tracking and CITrackastra result analysis.",
+  "author": {"name": "Cellular Imaging Amsterdam UMC", "url": "https://github.com/Cellular-Imaging-Amsterdam-UMC"},
+  "homepage": "https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra",
+  "repository": "https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra",
+  "license": "BSD-3-Clause",
+  "keywords": ["bioimaging", "tracking", "ome-zarr", "sqlite", "trackastra"],
+  "extensions": {
+    "nl.bioimaging.biomero": {
+      "skills": {
+        "analyze-citrackastra-tracks": {
+          "purpose": "attachment-analysis",
+          "consumers": ["omero-analysis"],
+          "auto_activate": true,
+          "match": {"extensions": [".sqlite", ".sqlite3"], "filename_globs": ["tracking.sqlite", "*__citrackastra_tracking.sqlite", "*__citrackastra_tracking.sqlite3"], "required_tables": ["schema_info", "run", "fields", "tracks", "observations", "links"]},
+          "required_resources": ["references/SCHEMA.md"],
+          "preferred_capabilities": ["omero-data-query-v1"]
+        },
+        "use-citrackastra-workflow": {
+          "purpose": "workflow-operation",
+          "consumers": ["omero-biomero"],
+          "auto_activate": false,
+          "required_resources": ["references/PARAMETERS.md"]
+        }
+      }
+    }
+  }
+}

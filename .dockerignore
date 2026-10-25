@@ -1,0 +1,16 @@
+.git
+.venv
+.venv-movie
+embeddings
+__pycache__
+**/__pycache__
+.pytest_cache
+work
+publicdata
+test-results
+inputfolder
+outputfolder
+models
+docs
+tests
+*.egg-info

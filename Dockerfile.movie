@@ -1,0 +1,10 @@
+ARG RUNTIME_IMAGE=cellularimagingcf/w_citrackastra:v0.1.0
+FROM ${RUNTIME_IMAGE}
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends xvfb xauth libgl1 libegl1 libglib2.0-0 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir '.[movie]'
+COPY tools/movie_entrypoint.sh /opt/citrackastra/movie_entrypoint.sh
+RUN chmod +x /opt/citrackastra/movie_entrypoint.sh
+ENV QT_QPA_PLATFORM=xcb LIBGL_ALWAYS_SOFTWARE=1
+ENTRYPOINT ["/opt/citrackastra/movie_entrypoint.sh"]
+CMD ["--model-dir", "/opt/models", "--infolder", "/data/in", "--outfolder", "/data/out"]

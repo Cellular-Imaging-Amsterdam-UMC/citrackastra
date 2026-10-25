@@ -1,0 +1,5 @@
+ARG MODEL_IMAGE=cellularimagingcf/citrackastra-models:v0.1.0
+ARG RUNTIME_IMAGE=cellularimagingcf/w_citrackastra:v0.1.0
+FROM ${MODEL_IMAGE} AS models
+FROM ${RUNTIME_IMAGE}
+COPY --from=models /models /opt/models

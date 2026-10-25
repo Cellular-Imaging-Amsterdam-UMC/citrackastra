@@ -1,0 +1,2095 @@
+{
+  "torch": "2.11.0+cu126",
+  "cuda_runtime": "12.6",
+  "device": "NVIDIA GeForce RTX 3060",
+  "runs": [
+    {
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "model": "general_2d",
+      "mode": "greedy",
+      "runtime_seconds": 1.042269799974747,
+      "counts": {
+        "tracks": 23,
+        "observations": 138,
+        "links": 115
+      },
+      "peak_cuda_allocated_mib": 51.79150390625,
+      "source": {
+        "dataset": "Fluo-N2DH-GOWT1",
+        "description": "GFP-GOWT1 mouse stem-cell nuclei",
+        "url": "https://zenodo.org/api/records/15608211/files/Fluo-N2DH-GOWT1.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "1a7bd9a7d1d10c4122c7782427b437246fb69cc3322a975485c04e206f64fc2c",
+        "zenodo_record": 15608211,
+        "source_checksum": "md5:ac11ba7b39fddcaf27fc1998eaa5f76c",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.24,
+        "seconds_per_frame": 300.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-GOWT1/01/t000.tif",
+          "Fluo-N2DH-GOWT1/01/t001.tif",
+          "Fluo-N2DH-GOWT1/01/t002.tif",
+          "Fluo-N2DH-GOWT1/01/t003.tif",
+          "Fluo-N2DH-GOWT1/01/t004.tif",
+          "Fluo-N2DH-GOWT1/01/t005.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "status": "passed"
+    },
+    {
+      "dataset": "Fluo-N2DH-SIM+-01-6frames.ome.zarr",
+      "model": "general_2d",
+      "mode": "greedy",
+      "runtime_seconds": 0.7305379998870194,
+      "counts": {
+        "tracks": 30,
+        "observations": 180,
+        "links": 150
+      },
+      "peak_cuda_allocated_mib": 52.34765625,
+      "source": {
+        "dataset": "Fluo-N2DH-SIM+",
+        "description": "Simulated fluorescent HL60 nuclei",
+        "url": "https://zenodo.org/api/records/15608207/files/Fluo-N2DH-SIM+.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "3e809148c87ace80c72f563b56c35e0d9448dcdeb461a09c83f61e93f5e40ec8",
+        "zenodo_record": 15608207,
+        "source_checksum": "md5:43d15005c36ea701d6b97c7fc8aaeb1d",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.125,
+        "seconds_per_frame": 1740.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-SIM+/01/t000.tif",
+          "Fluo-N2DH-SIM+/01/t001.tif",
+          "Fluo-N2DH-SIM+/01/t002.tif",
+          "Fluo-N2DH-SIM+/01/t003.tif",
+          "Fluo-N2DH-SIM+/01/t004.tif",
+          "Fluo-N2DH-SIM+/01/t005.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "status": "passed"
+    },
+    {
+      "dataset": "PhC-C2DH-U373-01-6frames.ome.zarr",
+      "model": "general_2d",
+      "mode": "greedy",
+      "runtime_seconds": 0.41724799992516637,
+      "counts": {
+        "tracks": 6,
+        "observations": 36,
+        "links": 30
+      },
+      "peak_cuda_allocated_mib": 50.56591796875,
+      "source": {
+        "dataset": "PhC-C2DH-U373",
+        "description": "Phase-contrast glioblastoma-astrocytoma cells",
+        "url": "https://zenodo.org/api/records/15608252/files/PhC-C2DH-U373.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "b18185c18fce54e8eeb93e4bbb9b201d757add9409bbf2283b8114185a11bc9e",
+        "zenodo_record": 15608252,
+        "source_checksum": "md5:91a554d1eb08dbf8973956e20d3da039",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.65,
+        "seconds_per_frame": 900.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "PhC-C2DH-U373/01/t000.tif",
+          "PhC-C2DH-U373/01/t001.tif",
+          "PhC-C2DH-U373/01/t002.tif",
+          "PhC-C2DH-U373/01/t003.tif",
+          "PhC-C2DH-U373/01/t004.tif",
+          "PhC-C2DH-U373/01/t005.tif"
+        ],
+        "mask_members": [
+          "PhC-C2DH-U373/01_GT/TRA/man_track000.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track001.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track002.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track003.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track004.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "status": "passed"
+    },
+    {
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "model": "ctc",
+      "mode": "greedy",
+      "runtime_seconds": 0.7347341999411583,
+      "counts": {
+        "tracks": 23,
+        "observations": 138,
+        "links": 115
+      },
+      "peak_cuda_allocated_mib": 116.36328125,
+      "source": {
+        "dataset": "Fluo-N2DH-GOWT1",
+        "description": "GFP-GOWT1 mouse stem-cell nuclei",
+        "url": "https://zenodo.org/api/records/15608211/files/Fluo-N2DH-GOWT1.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "1a7bd9a7d1d10c4122c7782427b437246fb69cc3322a975485c04e206f64fc2c",
+        "zenodo_record": 15608211,
+        "source_checksum": "md5:ac11ba7b39fddcaf27fc1998eaa5f76c",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.24,
+        "seconds_per_frame": 300.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-GOWT1/01/t000.tif",
+          "Fluo-N2DH-GOWT1/01/t001.tif",
+          "Fluo-N2DH-GOWT1/01/t002.tif",
+          "Fluo-N2DH-GOWT1/01/t003.tif",
+          "Fluo-N2DH-GOWT1/01/t004.tif",
+          "Fluo-N2DH-GOWT1/01/t005.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
+      "status": "passed"
+    },
+    {
+      "dataset": "Fluo-N2DH-SIM+-01-6frames.ome.zarr",
+      "model": "ctc",
+      "mode": "greedy",
+      "runtime_seconds": 0.5788286000024527,
+      "counts": {
+        "tracks": 30,
+        "observations": 180,
+        "links": 150
+      },
+      "peak_cuda_allocated_mib": 117.181640625,
+      "source": {
+        "dataset": "Fluo-N2DH-SIM+",
+        "description": "Simulated fluorescent HL60 nuclei",
+        "url": "https://zenodo.org/api/records/15608207/files/Fluo-N2DH-SIM+.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "3e809148c87ace80c72f563b56c35e0d9448dcdeb461a09c83f61e93f5e40ec8",
+        "zenodo_record": 15608207,
+        "source_checksum": "md5:43d15005c36ea701d6b97c7fc8aaeb1d",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.125,
+        "seconds_per_frame": 1740.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-SIM+/01/t000.tif",
+          "Fluo-N2DH-SIM+/01/t001.tif",
+          "Fluo-N2DH-SIM+/01/t002.tif",
+          "Fluo-N2DH-SIM+/01/t003.tif",
+          "Fluo-N2DH-SIM+/01/t004.tif",
+          "Fluo-N2DH-SIM+/01/t005.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
+      "status": "passed"
+    },
+    {
+      "dataset": "PhC-C2DH-U373-01-6frames.ome.zarr",
+      "model": "ctc",
+      "mode": "greedy",
+      "runtime_seconds": 0.48170829995069653,
+      "counts": {
+        "tracks": 6,
+        "observations": 36,
+        "links": 30
+      },
+      "peak_cuda_allocated_mib": 114.50634765625,
+      "source": {
+        "dataset": "PhC-C2DH-U373",
+        "description": "Phase-contrast glioblastoma-astrocytoma cells",
+        "url": "https://zenodo.org/api/records/15608252/files/PhC-C2DH-U373.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "b18185c18fce54e8eeb93e4bbb9b201d757add9409bbf2283b8114185a11bc9e",
+        "zenodo_record": 15608252,
+        "source_checksum": "md5:91a554d1eb08dbf8973956e20d3da039",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.65,
+        "seconds_per_frame": 900.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "PhC-C2DH-U373/01/t000.tif",
+          "PhC-C2DH-U373/01/t001.tif",
+          "PhC-C2DH-U373/01/t002.tif",
+          "PhC-C2DH-U373/01/t003.tif",
+          "PhC-C2DH-U373/01/t004.tif",
+          "PhC-C2DH-U373/01/t005.tif"
+        ],
+        "mask_members": [
+          "PhC-C2DH-U373/01_GT/TRA/man_track000.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track001.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track002.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track003.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track004.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
+      "status": "passed"
+    },
+    {
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "model": "general_2d_w_SAM2_features",
+      "mode": "greedy",
+      "runtime_seconds": 3.042328799958341,
+      "counts": {
+        "tracks": 23,
+        "observations": 138,
+        "links": 115
+      },
+      "peak_cuda_allocated_mib": 729.2265625,
+      "source": {
+        "dataset": "Fluo-N2DH-GOWT1",
+        "description": "GFP-GOWT1 mouse stem-cell nuclei",
+        "url": "https://zenodo.org/api/records/15608211/files/Fluo-N2DH-GOWT1.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "1a7bd9a7d1d10c4122c7782427b437246fb69cc3322a975485c04e206f64fc2c",
+        "zenodo_record": 15608211,
+        "source_checksum": "md5:ac11ba7b39fddcaf27fc1998eaa5f76c",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.24,
+        "seconds_per_frame": 300.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-GOWT1/01/t000.tif",
+          "Fluo-N2DH-GOWT1/01/t001.tif",
+          "Fluo-N2DH-GOWT1/01/t002.tif",
+          "Fluo-N2DH-GOWT1/01/t003.tif",
+          "Fluo-N2DH-GOWT1/01/t004.tif",
+          "Fluo-N2DH-GOWT1/01/t005.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
+      "status": "passed"
+    },
+    {
+      "dataset": "Fluo-N2DH-SIM+-01-6frames.ome.zarr",
+      "model": "general_2d_w_SAM2_features",
+      "mode": "greedy",
+      "runtime_seconds": 2.090656900079921,
+      "counts": {
+        "tracks": 30,
+        "observations": 180,
+        "links": 150
+      },
+      "peak_cuda_allocated_mib": 730.4296875,
+      "source": {
+        "dataset": "Fluo-N2DH-SIM+",
+        "description": "Simulated fluorescent HL60 nuclei",
+        "url": "https://zenodo.org/api/records/15608207/files/Fluo-N2DH-SIM+.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "3e809148c87ace80c72f563b56c35e0d9448dcdeb461a09c83f61e93f5e40ec8",
+        "zenodo_record": 15608207,
+        "source_checksum": "md5:43d15005c36ea701d6b97c7fc8aaeb1d",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.125,
+        "seconds_per_frame": 1740.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-SIM+/01/t000.tif",
+          "Fluo-N2DH-SIM+/01/t001.tif",
+          "Fluo-N2DH-SIM+/01/t002.tif",
+          "Fluo-N2DH-SIM+/01/t003.tif",
+          "Fluo-N2DH-SIM+/01/t004.tif",
+          "Fluo-N2DH-SIM+/01/t005.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
+      "status": "passed"
+    },
+    {
+      "dataset": "PhC-C2DH-U373-01-6frames.ome.zarr",
+      "model": "general_2d_w_SAM2_features",
+      "mode": "greedy",
+      "runtime_seconds": 1.9442813000641763,
+      "counts": {
+        "tracks": 6,
+        "observations": 36,
+        "links": 30
+      },
+      "peak_cuda_allocated_mib": 730.1796875,
+      "source": {
+        "dataset": "PhC-C2DH-U373",
+        "description": "Phase-contrast glioblastoma-astrocytoma cells",
+        "url": "https://zenodo.org/api/records/15608252/files/PhC-C2DH-U373.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "b18185c18fce54e8eeb93e4bbb9b201d757add9409bbf2283b8114185a11bc9e",
+        "zenodo_record": 15608252,
+        "source_checksum": "md5:91a554d1eb08dbf8973956e20d3da039",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.65,
+        "seconds_per_frame": 900.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "PhC-C2DH-U373/01/t000.tif",
+          "PhC-C2DH-U373/01/t001.tif",
+          "PhC-C2DH-U373/01/t002.tif",
+          "PhC-C2DH-U373/01/t003.tif",
+          "PhC-C2DH-U373/01/t004.tif",
+          "PhC-C2DH-U373/01/t005.tif"
+        ],
+        "mask_members": [
+          "PhC-C2DH-U373/01_GT/TRA/man_track000.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track001.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track002.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track003.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track004.tif",
+          "PhC-C2DH-U373/01_GT/TRA/man_track005.tif"
+        ],
+        "frame_range": [
+          0,
+          5
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
+      "status": "passed"
+    },
+    {
+      "dataset": "Fluo-N2DH-SIM+-01-65frames.ome.zarr",
+      "model": "general_2d",
+      "mode": "greedy",
+      "runtime_seconds": 5.844541399972513,
+      "counts": {
+        "tracks": 84,
+        "observations": 2607,
+        "links": 2565,
+        "divisions": 21
+      },
+      "peak_cuda_allocated_mib": 53.7890625,
+      "source": {
+        "dataset": "Fluo-N2DH-SIM+",
+        "description": "Simulated fluorescent HL60 nuclei",
+        "url": "https://zenodo.org/api/records/15608207/files/Fluo-N2DH-SIM+.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "3e809148c87ace80c72f563b56c35e0d9448dcdeb461a09c83f61e93f5e40ec8",
+        "zenodo_record": 15608207,
+        "source_checksum": "md5:43d15005c36ea701d6b97c7fc8aaeb1d",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.125,
+        "seconds_per_frame": 1740.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-SIM+/01/t000.tif",
+          "Fluo-N2DH-SIM+/01/t001.tif",
+          "Fluo-N2DH-SIM+/01/t002.tif",
+          "Fluo-N2DH-SIM+/01/t003.tif",
+          "Fluo-N2DH-SIM+/01/t004.tif",
+          "Fluo-N2DH-SIM+/01/t005.tif",
+          "Fluo-N2DH-SIM+/01/t006.tif",
+          "Fluo-N2DH-SIM+/01/t007.tif",
+          "Fluo-N2DH-SIM+/01/t008.tif",
+          "Fluo-N2DH-SIM+/01/t009.tif",
+          "Fluo-N2DH-SIM+/01/t010.tif",
+          "Fluo-N2DH-SIM+/01/t011.tif",
+          "Fluo-N2DH-SIM+/01/t012.tif",
+          "Fluo-N2DH-SIM+/01/t013.tif",
+          "Fluo-N2DH-SIM+/01/t014.tif",
+          "Fluo-N2DH-SIM+/01/t015.tif",
+          "Fluo-N2DH-SIM+/01/t016.tif",
+          "Fluo-N2DH-SIM+/01/t017.tif",
+          "Fluo-N2DH-SIM+/01/t018.tif",
+          "Fluo-N2DH-SIM+/01/t019.tif",
+          "Fluo-N2DH-SIM+/01/t020.tif",
+          "Fluo-N2DH-SIM+/01/t021.tif",
+          "Fluo-N2DH-SIM+/01/t022.tif",
+          "Fluo-N2DH-SIM+/01/t023.tif",
+          "Fluo-N2DH-SIM+/01/t024.tif",
+          "Fluo-N2DH-SIM+/01/t025.tif",
+          "Fluo-N2DH-SIM+/01/t026.tif",
+          "Fluo-N2DH-SIM+/01/t027.tif",
+          "Fluo-N2DH-SIM+/01/t028.tif",
+          "Fluo-N2DH-SIM+/01/t029.tif",
+          "Fluo-N2DH-SIM+/01/t030.tif",
+          "Fluo-N2DH-SIM+/01/t031.tif",
+          "Fluo-N2DH-SIM+/01/t032.tif",
+          "Fluo-N2DH-SIM+/01/t033.tif",
+          "Fluo-N2DH-SIM+/01/t034.tif",
+          "Fluo-N2DH-SIM+/01/t035.tif",
+          "Fluo-N2DH-SIM+/01/t036.tif",
+          "Fluo-N2DH-SIM+/01/t037.tif",
+          "Fluo-N2DH-SIM+/01/t038.tif",
+          "Fluo-N2DH-SIM+/01/t039.tif",
+          "Fluo-N2DH-SIM+/01/t040.tif",
+          "Fluo-N2DH-SIM+/01/t041.tif",
+          "Fluo-N2DH-SIM+/01/t042.tif",
+          "Fluo-N2DH-SIM+/01/t043.tif",
+          "Fluo-N2DH-SIM+/01/t044.tif",
+          "Fluo-N2DH-SIM+/01/t045.tif",
+          "Fluo-N2DH-SIM+/01/t046.tif",
+          "Fluo-N2DH-SIM+/01/t047.tif",
+          "Fluo-N2DH-SIM+/01/t048.tif",
+          "Fluo-N2DH-SIM+/01/t049.tif",
+          "Fluo-N2DH-SIM+/01/t050.tif",
+          "Fluo-N2DH-SIM+/01/t051.tif",
+          "Fluo-N2DH-SIM+/01/t052.tif",
+          "Fluo-N2DH-SIM+/01/t053.tif",
+          "Fluo-N2DH-SIM+/01/t054.tif",
+          "Fluo-N2DH-SIM+/01/t055.tif",
+          "Fluo-N2DH-SIM+/01/t056.tif",
+          "Fluo-N2DH-SIM+/01/t057.tif",
+          "Fluo-N2DH-SIM+/01/t058.tif",
+          "Fluo-N2DH-SIM+/01/t059.tif",
+          "Fluo-N2DH-SIM+/01/t060.tif",
+          "Fluo-N2DH-SIM+/01/t061.tif",
+          "Fluo-N2DH-SIM+/01/t062.tif",
+          "Fluo-N2DH-SIM+/01/t063.tif",
+          "Fluo-N2DH-SIM+/01/t064.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track005.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track006.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track007.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track008.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track009.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track010.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track011.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track012.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track013.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track014.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track015.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track016.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track017.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track018.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track019.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track020.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track021.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track022.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track023.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track024.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track025.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track026.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track027.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track028.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track029.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track030.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track031.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track032.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track033.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track034.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track035.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track036.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track037.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track038.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track039.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track040.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track041.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track042.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track043.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track044.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track045.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track046.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track047.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track048.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track049.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track050.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track051.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track052.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track053.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track054.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track055.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track056.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track057.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track058.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track059.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track060.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track061.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track062.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track063.tif",
+          "Fluo-N2DH-SIM+/01_GT/TRA/man_track064.tif"
+        ],
+        "frame_range": [
+          0,
+          64
+        ],
+        "reference_lineage": [
+          [
+            1,
+            0,
+            20,
+            0
+          ],
+          [
+            2,
+            0,
+            24,
+            0
+          ],
+          [
+            3,
+            0,
+            55,
+            0
+          ],
+          [
+            4,
+            0,
+            51,
+            0
+          ],
+          [
+            5,
+            0,
+            18,
+            0
+          ],
+          [
+            6,
+            0,
+            41,
+            0
+          ],
+          [
+            7,
+            0,
+            48,
+            0
+          ],
+          [
+            8,
+            0,
+            23,
+            0
+          ],
+          [
+            9,
+            0,
+            35,
+            0
+          ],
+          [
+            10,
+            0,
+            46,
+            0
+          ],
+          [
+            11,
+            0,
+            9,
+            0
+          ],
+          [
+            12,
+            0,
+            31,
+            0
+          ],
+          [
+            13,
+            0,
+            35,
+            0
+          ],
+          [
+            14,
+            0,
+            26,
+            0
+          ],
+          [
+            15,
+            0,
+            17,
+            0
+          ],
+          [
+            16,
+            0,
+            54,
+            0
+          ],
+          [
+            17,
+            0,
+            19,
+            0
+          ],
+          [
+            18,
+            0,
+            9,
+            0
+          ],
+          [
+            19,
+            0,
+            18,
+            0
+          ],
+          [
+            20,
+            0,
+            27,
+            0
+          ],
+          [
+            21,
+            0,
+            18,
+            0
+          ],
+          [
+            22,
+            0,
+            47,
+            0
+          ],
+          [
+            23,
+            0,
+            52,
+            0
+          ],
+          [
+            24,
+            0,
+            10,
+            0
+          ],
+          [
+            25,
+            0,
+            21,
+            0
+          ],
+          [
+            26,
+            0,
+            13,
+            0
+          ],
+          [
+            27,
+            0,
+            53,
+            0
+          ],
+          [
+            28,
+            0,
+            20,
+            0
+          ],
+          [
+            29,
+            0,
+            34,
+            0
+          ],
+          [
+            30,
+            0,
+            13,
+            0
+          ],
+          [
+            31,
+            10,
+            64,
+            11
+          ],
+          [
+            32,
+            10,
+            64,
+            11
+          ],
+          [
+            33,
+            10,
+            38,
+            18
+          ],
+          [
+            34,
+            10,
+            63,
+            18
+          ],
+          [
+            35,
+            11,
+            45,
+            24
+          ],
+          [
+            36,
+            11,
+            64,
+            24
+          ],
+          [
+            37,
+            14,
+            64,
+            26
+          ],
+          [
+            38,
+            14,
+            49,
+            26
+          ],
+          [
+            39,
+            14,
+            64,
+            30
+          ],
+          [
+            40,
+            14,
+            64,
+            30
+          ],
+          [
+            41,
+            18,
+            64,
+            15
+          ],
+          [
+            42,
+            18,
+            64,
+            15
+          ],
+          [
+            43,
+            19,
+            30,
+            5
+          ],
+          [
+            44,
+            19,
+            64,
+            5
+          ],
+          [
+            45,
+            19,
+            64,
+            19
+          ],
+          [
+            46,
+            19,
+            64,
+            19
+          ],
+          [
+            47,
+            19,
+            64,
+            21
+          ],
+          [
+            48,
+            19,
+            26,
+            21
+          ],
+          [
+            49,
+            20,
+            64,
+            17
+          ],
+          [
+            50,
+            20,
+            64,
+            17
+          ],
+          [
+            51,
+            21,
+            64,
+            1
+          ],
+          [
+            52,
+            21,
+            34,
+            1
+          ],
+          [
+            53,
+            21,
+            60,
+            28
+          ],
+          [
+            55,
+            22,
+            64,
+            25
+          ],
+          [
+            56,
+            22,
+            64,
+            25
+          ],
+          [
+            57,
+            24,
+            53,
+            8
+          ],
+          [
+            58,
+            24,
+            64,
+            8
+          ],
+          [
+            59,
+            30,
+            47,
+            0
+          ],
+          [
+            60,
+            25,
+            64,
+            2
+          ],
+          [
+            61,
+            27,
+            34,
+            14
+          ],
+          [
+            62,
+            27,
+            35,
+            14
+          ],
+          [
+            63,
+            28,
+            64,
+            20
+          ],
+          [
+            64,
+            28,
+            64,
+            20
+          ],
+          [
+            65,
+            35,
+            64,
+            29
+          ],
+          [
+            66,
+            35,
+            58,
+            29
+          ],
+          [
+            67,
+            36,
+            64,
+            9
+          ],
+          [
+            68,
+            36,
+            64,
+            9
+          ],
+          [
+            69,
+            36,
+            64,
+            13
+          ],
+          [
+            70,
+            36,
+            52,
+            13
+          ],
+          [
+            71,
+            42,
+            64,
+            6
+          ],
+          [
+            72,
+            42,
+            52,
+            6
+          ],
+          [
+            73,
+            47,
+            55,
+            10
+          ],
+          [
+            74,
+            47,
+            64,
+            10
+          ],
+          [
+            75,
+            48,
+            64,
+            22
+          ],
+          [
+            76,
+            48,
+            64,
+            22
+          ],
+          [
+            77,
+            49,
+            64,
+            7
+          ],
+          [
+            78,
+            49,
+            64,
+            7
+          ],
+          [
+            79,
+            52,
+            64,
+            4
+          ],
+          [
+            80,
+            52,
+            64,
+            4
+          ],
+          [
+            81,
+            53,
+            64,
+            23
+          ],
+          [
+            82,
+            53,
+            64,
+            23
+          ],
+          [
+            83,
+            54,
+            64,
+            94
+          ],
+          [
+            84,
+            54,
+            57,
+            94
+          ],
+          [
+            85,
+            54,
+            64,
+            27
+          ],
+          [
+            86,
+            54,
+            64,
+            27
+          ],
+          [
+            87,
+            55,
+            64,
+            16
+          ],
+          [
+            88,
+            55,
+            64,
+            16
+          ],
+          [
+            89,
+            56,
+            64,
+            3
+          ],
+          [
+            91,
+            64,
+            64,
+            34
+          ],
+          [
+            92,
+            64,
+            64,
+            34
+          ],
+          [
+            93,
+            49,
+            50,
+            0
+          ],
+          [
+            94,
+            52,
+            53,
+            0
+          ],
+          [
+            95,
+            52,
+            64,
+            0
+          ],
+          [
+            96,
+            54,
+            54,
+            0
+          ],
+          [
+            97,
+            59,
+            64,
+            0
+          ]
+        ],
+        "reference_divisions": [
+          {
+            "parent_label": 11,
+            "daughters": [
+              {
+                "label": 31,
+                "start_frame": 10
+              },
+              {
+                "label": 32,
+                "start_frame": 10
+              }
+            ]
+          },
+          {
+            "parent_label": 18,
+            "daughters": [
+              {
+                "label": 33,
+                "start_frame": 10
+              },
+              {
+                "label": 34,
+                "start_frame": 10
+              }
+            ]
+          },
+          {
+            "parent_label": 24,
+            "daughters": [
+              {
+                "label": 35,
+                "start_frame": 11
+              },
+              {
+                "label": 36,
+                "start_frame": 11
+              }
+            ]
+          },
+          {
+            "parent_label": 26,
+            "daughters": [
+              {
+                "label": 37,
+                "start_frame": 14
+              },
+              {
+                "label": 38,
+                "start_frame": 14
+              }
+            ]
+          },
+          {
+            "parent_label": 30,
+            "daughters": [
+              {
+                "label": 39,
+                "start_frame": 14
+              },
+              {
+                "label": 40,
+                "start_frame": 14
+              }
+            ]
+          },
+          {
+            "parent_label": 15,
+            "daughters": [
+              {
+                "label": 41,
+                "start_frame": 18
+              },
+              {
+                "label": 42,
+                "start_frame": 18
+              }
+            ]
+          },
+          {
+            "parent_label": 5,
+            "daughters": [
+              {
+                "label": 43,
+                "start_frame": 19
+              },
+              {
+                "label": 44,
+                "start_frame": 19
+              }
+            ]
+          },
+          {
+            "parent_label": 19,
+            "daughters": [
+              {
+                "label": 45,
+                "start_frame": 19
+              },
+              {
+                "label": 46,
+                "start_frame": 19
+              }
+            ]
+          },
+          {
+            "parent_label": 21,
+            "daughters": [
+              {
+                "label": 47,
+                "start_frame": 19
+              },
+              {
+                "label": 48,
+                "start_frame": 19
+              }
+            ]
+          },
+          {
+            "parent_label": 17,
+            "daughters": [
+              {
+                "label": 49,
+                "start_frame": 20
+              },
+              {
+                "label": 50,
+                "start_frame": 20
+              }
+            ]
+          },
+          {
+            "parent_label": 1,
+            "daughters": [
+              {
+                "label": 51,
+                "start_frame": 21
+              },
+              {
+                "label": 52,
+                "start_frame": 21
+              }
+            ]
+          },
+          {
+            "parent_label": 25,
+            "daughters": [
+              {
+                "label": 55,
+                "start_frame": 22
+              },
+              {
+                "label": 56,
+                "start_frame": 22
+              }
+            ]
+          },
+          {
+            "parent_label": 8,
+            "daughters": [
+              {
+                "label": 57,
+                "start_frame": 24
+              },
+              {
+                "label": 58,
+                "start_frame": 24
+              }
+            ]
+          },
+          {
+            "parent_label": 14,
+            "daughters": [
+              {
+                "label": 61,
+                "start_frame": 27
+              },
+              {
+                "label": 62,
+                "start_frame": 27
+              }
+            ]
+          },
+          {
+            "parent_label": 20,
+            "daughters": [
+              {
+                "label": 63,
+                "start_frame": 28
+              },
+              {
+                "label": 64,
+                "start_frame": 28
+              }
+            ]
+          },
+          {
+            "parent_label": 29,
+            "daughters": [
+              {
+                "label": 65,
+                "start_frame": 35
+              },
+              {
+                "label": 66,
+                "start_frame": 35
+              }
+            ]
+          },
+          {
+            "parent_label": 9,
+            "daughters": [
+              {
+                "label": 67,
+                "start_frame": 36
+              },
+              {
+                "label": 68,
+                "start_frame": 36
+              }
+            ]
+          },
+          {
+            "parent_label": 13,
+            "daughters": [
+              {
+                "label": 69,
+                "start_frame": 36
+              },
+              {
+                "label": 70,
+                "start_frame": 36
+              }
+            ]
+          },
+          {
+            "parent_label": 6,
+            "daughters": [
+              {
+                "label": 71,
+                "start_frame": 42
+              },
+              {
+                "label": 72,
+                "start_frame": 42
+              }
+            ]
+          },
+          {
+            "parent_label": 10,
+            "daughters": [
+              {
+                "label": 73,
+                "start_frame": 47
+              },
+              {
+                "label": 74,
+                "start_frame": 47
+              }
+            ]
+          },
+          {
+            "parent_label": 22,
+            "daughters": [
+              {
+                "label": 75,
+                "start_frame": 48
+              },
+              {
+                "label": 76,
+                "start_frame": 48
+              }
+            ]
+          },
+          {
+            "parent_label": 7,
+            "daughters": [
+              {
+                "label": 77,
+                "start_frame": 49
+              },
+              {
+                "label": 78,
+                "start_frame": 49
+              }
+            ]
+          },
+          {
+            "parent_label": 4,
+            "daughters": [
+              {
+                "label": 79,
+                "start_frame": 52
+              },
+              {
+                "label": 80,
+                "start_frame": 52
+              }
+            ]
+          },
+          {
+            "parent_label": 23,
+            "daughters": [
+              {
+                "label": 81,
+                "start_frame": 53
+              },
+              {
+                "label": 82,
+                "start_frame": 53
+              }
+            ]
+          },
+          {
+            "parent_label": 94,
+            "daughters": [
+              {
+                "label": 83,
+                "start_frame": 54
+              },
+              {
+                "label": 84,
+                "start_frame": 54
+              }
+            ]
+          },
+          {
+            "parent_label": 27,
+            "daughters": [
+              {
+                "label": 85,
+                "start_frame": 54
+              },
+              {
+                "label": 86,
+                "start_frame": 54
+              }
+            ]
+          },
+          {
+            "parent_label": 16,
+            "daughters": [
+              {
+                "label": 87,
+                "start_frame": 55
+              },
+              {
+                "label": 88,
+                "start_frame": 55
+              }
+            ]
+          },
+          {
+            "parent_label": 34,
+            "daughters": [
+              {
+                "label": 91,
+                "start_frame": 64
+              },
+              {
+                "label": 92,
+                "start_frame": 64
+              }
+            ]
+          }
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "status": "passed",
+      "movie": {
+        "filename": "spacetime_movie.mp4",
+        "tracking_filename": "tracking_movie.mp4",
+        "tracking_frames": 195,
+        "renderer": "Divisualisation SpacetimeLift + napari; Pillow for conventional 2D view",
+        "divisualisation_version": "0.1.0",
+        "napari_version": "0.8.0",
+        "fps": 12,
+        "frames": 142,
+        "size": [
+          960,
+          720
+        ],
+        "segments": [
+          {
+            "field_id": 1,
+            "image_path": "A/1/0",
+            "source_label": "instances",
+            "start_movie_frame": 0,
+            "end_movie_frame": 141,
+            "tracking_start_frame": 0,
+            "tracking_end_frame": 194,
+            "predicted_division_frames": [
+              10,
+              11,
+              14,
+              18,
+              19,
+              24,
+              27,
+              35,
+              36,
+              42,
+              47,
+              48,
+              49,
+              52,
+              53,
+              54,
+              64
+            ]
+          }
+        ],
+        "ground_truth_errors": false,
+        "interpretation": "Predictions only. Time is lifted into a display axis; it is not physical Z. Fields and label sets play sequentially."
+      }
+    },
+    {
+      "dataset": "Fluo-N2DH-GOWT1-01-92frames.ome.zarr",
+      "model": "general_2d",
+      "mode": "greedy",
+      "runtime_seconds": 9.886694899993017,
+      "counts": {
+        "tracks": 29,
+        "observations": 2058,
+        "links": 2031,
+        "divisions": 1
+      },
+      "peak_cuda_allocated_mib": 51.8916015625,
+      "source": {
+        "dataset": "Fluo-N2DH-GOWT1",
+        "description": "GFP-GOWT1 mouse stem-cell nuclei",
+        "url": "https://zenodo.org/api/records/15608211/files/Fluo-N2DH-GOWT1.zip/content",
+        "source_page": "https://celltrackingchallenge.net/2d-datasets/",
+        "conditions": "https://celltrackingchallenge.net/datasets/",
+        "archive_sha256": "1a7bd9a7d1d10c4122c7782427b437246fb69cc3322a975485c04e206f64fc2c",
+        "zenodo_record": 15608211,
+        "source_checksum": "md5:ac11ba7b39fddcaf27fc1998eaa5f76c",
+        "license": {
+          "id": "cc-by-4.0"
+        },
+        "pixel_um": 0.24,
+        "seconds_per_frame": 300.0,
+        "calibration_source": "https://celltrackingchallenge.net/2d-datasets/",
+        "image_members": [
+          "Fluo-N2DH-GOWT1/01/t000.tif",
+          "Fluo-N2DH-GOWT1/01/t001.tif",
+          "Fluo-N2DH-GOWT1/01/t002.tif",
+          "Fluo-N2DH-GOWT1/01/t003.tif",
+          "Fluo-N2DH-GOWT1/01/t004.tif",
+          "Fluo-N2DH-GOWT1/01/t005.tif",
+          "Fluo-N2DH-GOWT1/01/t006.tif",
+          "Fluo-N2DH-GOWT1/01/t007.tif",
+          "Fluo-N2DH-GOWT1/01/t008.tif",
+          "Fluo-N2DH-GOWT1/01/t009.tif",
+          "Fluo-N2DH-GOWT1/01/t010.tif",
+          "Fluo-N2DH-GOWT1/01/t011.tif",
+          "Fluo-N2DH-GOWT1/01/t012.tif",
+          "Fluo-N2DH-GOWT1/01/t013.tif",
+          "Fluo-N2DH-GOWT1/01/t014.tif",
+          "Fluo-N2DH-GOWT1/01/t015.tif",
+          "Fluo-N2DH-GOWT1/01/t016.tif",
+          "Fluo-N2DH-GOWT1/01/t017.tif",
+          "Fluo-N2DH-GOWT1/01/t018.tif",
+          "Fluo-N2DH-GOWT1/01/t019.tif",
+          "Fluo-N2DH-GOWT1/01/t020.tif",
+          "Fluo-N2DH-GOWT1/01/t021.tif",
+          "Fluo-N2DH-GOWT1/01/t022.tif",
+          "Fluo-N2DH-GOWT1/01/t023.tif",
+          "Fluo-N2DH-GOWT1/01/t024.tif",
+          "Fluo-N2DH-GOWT1/01/t025.tif",
+          "Fluo-N2DH-GOWT1/01/t026.tif",
+          "Fluo-N2DH-GOWT1/01/t027.tif",
+          "Fluo-N2DH-GOWT1/01/t028.tif",
+          "Fluo-N2DH-GOWT1/01/t029.tif",
+          "Fluo-N2DH-GOWT1/01/t030.tif",
+          "Fluo-N2DH-GOWT1/01/t031.tif",
+          "Fluo-N2DH-GOWT1/01/t032.tif",
+          "Fluo-N2DH-GOWT1/01/t033.tif",
+          "Fluo-N2DH-GOWT1/01/t034.tif",
+          "Fluo-N2DH-GOWT1/01/t035.tif",
+          "Fluo-N2DH-GOWT1/01/t036.tif",
+          "Fluo-N2DH-GOWT1/01/t037.tif",
+          "Fluo-N2DH-GOWT1/01/t038.tif",
+          "Fluo-N2DH-GOWT1/01/t039.tif",
+          "Fluo-N2DH-GOWT1/01/t040.tif",
+          "Fluo-N2DH-GOWT1/01/t041.tif",
+          "Fluo-N2DH-GOWT1/01/t042.tif",
+          "Fluo-N2DH-GOWT1/01/t043.tif",
+          "Fluo-N2DH-GOWT1/01/t044.tif",
+          "Fluo-N2DH-GOWT1/01/t045.tif",
+          "Fluo-N2DH-GOWT1/01/t046.tif",
+          "Fluo-N2DH-GOWT1/01/t047.tif",
+          "Fluo-N2DH-GOWT1/01/t048.tif",
+          "Fluo-N2DH-GOWT1/01/t049.tif",
+          "Fluo-N2DH-GOWT1/01/t050.tif",
+          "Fluo-N2DH-GOWT1/01/t051.tif",
+          "Fluo-N2DH-GOWT1/01/t052.tif",
+          "Fluo-N2DH-GOWT1/01/t053.tif",
+          "Fluo-N2DH-GOWT1/01/t054.tif",
+          "Fluo-N2DH-GOWT1/01/t055.tif",
+          "Fluo-N2DH-GOWT1/01/t056.tif",
+          "Fluo-N2DH-GOWT1/01/t057.tif",
+          "Fluo-N2DH-GOWT1/01/t058.tif",
+          "Fluo-N2DH-GOWT1/01/t059.tif",
+          "Fluo-N2DH-GOWT1/01/t060.tif",
+          "Fluo-N2DH-GOWT1/01/t061.tif",
+          "Fluo-N2DH-GOWT1/01/t062.tif",
+          "Fluo-N2DH-GOWT1/01/t063.tif",
+          "Fluo-N2DH-GOWT1/01/t064.tif",
+          "Fluo-N2DH-GOWT1/01/t065.tif",
+          "Fluo-N2DH-GOWT1/01/t066.tif",
+          "Fluo-N2DH-GOWT1/01/t067.tif",
+          "Fluo-N2DH-GOWT1/01/t068.tif",
+          "Fluo-N2DH-GOWT1/01/t069.tif",
+          "Fluo-N2DH-GOWT1/01/t070.tif",
+          "Fluo-N2DH-GOWT1/01/t071.tif",
+          "Fluo-N2DH-GOWT1/01/t072.tif",
+          "Fluo-N2DH-GOWT1/01/t073.tif",
+          "Fluo-N2DH-GOWT1/01/t074.tif",
+          "Fluo-N2DH-GOWT1/01/t075.tif",
+          "Fluo-N2DH-GOWT1/01/t076.tif",
+          "Fluo-N2DH-GOWT1/01/t077.tif",
+          "Fluo-N2DH-GOWT1/01/t078.tif",
+          "Fluo-N2DH-GOWT1/01/t079.tif",
+          "Fluo-N2DH-GOWT1/01/t080.tif",
+          "Fluo-N2DH-GOWT1/01/t081.tif",
+          "Fluo-N2DH-GOWT1/01/t082.tif",
+          "Fluo-N2DH-GOWT1/01/t083.tif",
+          "Fluo-N2DH-GOWT1/01/t084.tif",
+          "Fluo-N2DH-GOWT1/01/t085.tif",
+          "Fluo-N2DH-GOWT1/01/t086.tif",
+          "Fluo-N2DH-GOWT1/01/t087.tif",
+          "Fluo-N2DH-GOWT1/01/t088.tif",
+          "Fluo-N2DH-GOWT1/01/t089.tif",
+          "Fluo-N2DH-GOWT1/01/t090.tif",
+          "Fluo-N2DH-GOWT1/01/t091.tif"
+        ],
+        "mask_members": [
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track000.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track001.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track002.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track003.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track004.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track005.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track006.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track007.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track008.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track009.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track010.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track011.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track012.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track013.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track014.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track015.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track016.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track017.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track018.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track019.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track020.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track021.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track022.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track023.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track024.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track025.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track026.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track027.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track028.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track029.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track030.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track031.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track032.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track033.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track034.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track035.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track036.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track037.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track038.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track039.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track040.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track041.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track042.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track043.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track044.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track045.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track046.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track047.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track048.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track049.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track050.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track051.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track052.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track053.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track054.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track055.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track056.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track057.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track058.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track059.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track060.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track061.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track062.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track063.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track064.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track065.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track066.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track067.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track068.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track069.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track070.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track071.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track072.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track073.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track074.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track075.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track076.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track077.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track078.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track079.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track080.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track081.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track082.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track083.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track084.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track085.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track086.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track087.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track088.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track089.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track090.tif",
+          "Fluo-N2DH-GOWT1/01_GT/TRA/man_track091.tif"
+        ],
+        "frame_range": [
+          0,
+          91
+        ],
+        "reference_lineage": [
+          [
+            1,
+            0,
+            91,
+            0
+          ],
+          [
+            2,
+            0,
+            91,
+            0
+          ],
+          [
+            3,
+            0,
+            91,
+            0
+          ],
+          [
+            4,
+            0,
+            91,
+            0
+          ],
+          [
+            5,
+            0,
+            91,
+            0
+          ],
+          [
+            6,
+            0,
+            91,
+            0
+          ],
+          [
+            8,
+            0,
+            51,
+            0
+          ],
+          [
+            9,
+            0,
+            51,
+            0
+          ],
+          [
+            10,
+            0,
+            46,
+            0
+          ],
+          [
+            12,
+            47,
+            47,
+            10
+          ],
+          [
+            14,
+            47,
+            49,
+            10
+          ],
+          [
+            15,
+            0,
+            91,
+            0
+          ],
+          [
+            16,
+            0,
+            16,
+            0
+          ],
+          [
+            18,
+            21,
+            91,
+            16
+          ],
+          [
+            22,
+            17,
+            91,
+            16
+          ],
+          [
+            23,
+            0,
+            77,
+            0
+          ],
+          [
+            24,
+            0,
+            91,
+            0
+          ],
+          [
+            25,
+            0,
+            91,
+            0
+          ],
+          [
+            26,
+            0,
+            91,
+            0
+          ],
+          [
+            27,
+            0,
+            91,
+            0
+          ],
+          [
+            28,
+            0,
+            91,
+            0
+          ],
+          [
+            29,
+            0,
+            91,
+            0
+          ],
+          [
+            30,
+            0,
+            91,
+            0
+          ],
+          [
+            31,
+            0,
+            91,
+            0
+          ],
+          [
+            32,
+            0,
+            91,
+            0
+          ],
+          [
+            33,
+            0,
+            91,
+            0
+          ],
+          [
+            34,
+            0,
+            91,
+            0
+          ],
+          [
+            35,
+            85,
+            90,
+            23
+          ]
+        ],
+        "reference_divisions": [
+          {
+            "parent_label": 10,
+            "daughters": [
+              {
+                "label": 12,
+                "start_frame": 47
+              },
+              {
+                "label": 14,
+                "start_frame": 47
+              }
+            ]
+          },
+          {
+            "parent_label": 16,
+            "daughters": [
+              {
+                "label": 18,
+                "start_frame": 21
+              },
+              {
+                "label": 22,
+                "start_frame": 17
+              }
+            ]
+          }
+        ],
+        "label_semantics": "CTC TRA reference markers; not complete cell/nuclear segmentation",
+        "purpose": "Pipeline/model smoke test with reference markers, not an independent accuracy benchmark"
+      },
+      "pixels_preserved": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "status": "passed",
+      "movie": {
+        "filename": "spacetime_movie.mp4",
+        "tracking_filename": "tracking_movie.mp4",
+        "tracking_frames": 276,
+        "renderer": "Divisualisation SpacetimeLift + napari; Pillow for conventional 2D view",
+        "divisualisation_version": "0.1.0",
+        "napari_version": "0.8.0",
+        "fps": 12,
+        "frames": 196,
+        "size": [
+          960,
+          720
+        ],
+        "segments": [
+          {
+            "field_id": 1,
+            "image_path": "A/1/0",
+            "source_label": "instances",
+            "start_movie_frame": 0,
+            "end_movie_frame": 195,
+            "tracking_start_frame": 0,
+            "tracking_end_frame": 275,
+            "predicted_division_frames": [
+              47
+            ]
+          }
+        ],
+        "ground_truth_errors": false,
+        "interpretation": "Predictions only. Time is lifted into a display axis; it is not physical Z. Fields and label sets play sequentially."
+      }
+    }
+  ],
+  "scope": "Compatibility and real-model smoke validation on CTC reference markers, not an accuracy benchmark"
+}
