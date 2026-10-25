@@ -89,6 +89,14 @@ def validate(args):
     report = {"created_utc": datetime.now(timezone.utc).isoformat(), "status": "running", "network": "none for every inference container", "platform": "linux/amd64", "image": args.image, "runtime_image": args.runtime_image, "cases": []}
     report["image_id"] = execute(["docker", "image", "inspect", args.image, "--format", "{{.Id}}"] ).strip()
     report["runtime_image_id"] = execute(["docker", "image", "inspect", args.runtime_image, "--format", "{{.Id}}"] ).strip()
+    images = {name: json.loads(execute(["docker", "image", "inspect", name]))[0] for name in (args.image, args.runtime_image, args.models_image)}
+    complete_layers = images[args.image]["RootFS"]["Layers"]
+    runtime_layers = images[args.runtime_image]["RootFS"]["Layers"]
+    model_layer = images[args.models_image]["RootFS"]["Layers"][0]
+    assert complete_layers[:len(runtime_layers)] == runtime_layers
+    assert model_layer in complete_layers, "Complete image must reuse the model-cache layer"
+    report["shared_model_layer"] = model_layer
+    report["runtime_layers_reused"] = True
     destination = args.output_dir / "docker-validation.json"
     report["gpu_probe"] = probe(args.image, True)
     assert report["gpu_probe"]["cuda_available"], "CUDA is unavailable in Docker"
@@ -142,6 +150,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", default="cellularimagingcf/w_citrackastra:v0.1.0")
     parser.add_argument("--runtime-image", default="cellularimagingcf/w_citrackastra:v0.1.0-runtime")
+    parser.add_argument("--models-image", default="cellularimagingcf/citrackastra-models:v0.1.0")
     parser.add_argument("--input-dir", type=Path, default=Path("publicdata/plates"))
     parser.add_argument("--model-dir", type=Path, default=Path("models"))
     parser.add_argument("--output-dir", type=Path, default=Path("test-results/docker-v0.1.0"))
