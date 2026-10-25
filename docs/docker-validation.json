@@ -1,0 +1,468 @@
+{
+  "created_utc": "2026-10-25T18:52:25.098692+00:00",
+  "status": "passed",
+  "network": "none for every inference container",
+  "platform": "linux/amd64",
+  "image": "cellularimagingcf/w_citrackastra:v0.1.0",
+  "runtime_image": "cellularimagingcf/w_citrackastra:v0.1.0-runtime",
+  "cases": [
+    {
+      "name": "cuda-general_2d-0",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 23,
+        "observations": 138,
+        "links": 115,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 14.758493200060911
+    },
+    {
+      "name": "cuda-general_2d-1",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-SIM+-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 30,
+        "observations": 180,
+        "links": 150,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 12.134765299968421
+    },
+    {
+      "name": "cuda-general_2d-2",
+      "model": "general_2d",
+      "dataset": "PhC-C2DH-U373-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 6,
+        "observations": 36,
+        "links": 30,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 11.435261399950832
+    },
+    {
+      "name": "cuda-ctc-0",
+      "model": "ctc",
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 23,
+        "observations": 138,
+        "links": 115,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 13.355071599944495
+    },
+    {
+      "name": "cuda-ctc-1",
+      "model": "ctc",
+      "dataset": "Fluo-N2DH-SIM+-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 30,
+        "observations": 180,
+        "links": 150,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 11.51458850002382
+    },
+    {
+      "name": "cuda-ctc-2",
+      "model": "ctc",
+      "dataset": "PhC-C2DH-U373-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 6,
+        "observations": 36,
+        "links": 30,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 10.60699740005657
+    },
+    {
+      "name": "cuda-general_2d_w_SAM2_features-0",
+      "model": "general_2d_w_SAM2_features",
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": true,
+      "counts": {
+        "fields": 1,
+        "tracks": 23,
+        "observations": 138,
+        "links": 115,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
+      "videos": [
+        {
+          "filename": "tracking_movie.mp4",
+          "codec": "h264",
+          "size": [
+            960,
+            720
+          ],
+          "fps": 12.0,
+          "duration": 1.5,
+          "bytes": 160482
+        },
+        {
+          "filename": "spacetime_movie.mp4",
+          "codec": "h264",
+          "size": [
+            960,
+            720
+          ],
+          "fps": 12.0,
+          "duration": 7.0,
+          "bytes": 192071
+        }
+      ],
+      "status": "passed",
+      "wall_seconds": 29.474122200044803
+    },
+    {
+      "name": "cuda-general_2d_w_SAM2_features-1",
+      "model": "general_2d_w_SAM2_features",
+      "dataset": "Fluo-N2DH-SIM+-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 30,
+        "observations": 180,
+        "links": 150,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 13.24562609998975
+    },
+    {
+      "name": "cuda-general_2d_w_SAM2_features-2",
+      "model": "general_2d_w_SAM2_features",
+      "dataset": "PhC-C2DH-U373-01-6frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 6,
+        "observations": 36,
+        "links": 30,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 12.198674399987794
+    },
+    {
+      "name": "cpu-no-divisions-movies",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "device": "cpu",
+      "mode": "greedy_nodiv",
+      "movie": true,
+      "counts": {
+        "fields": 1,
+        "tracks": 23,
+        "observations": 138,
+        "links": 115,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [
+        {
+          "filename": "tracking_movie.mp4",
+          "codec": "h264",
+          "size": [
+            960,
+            720
+          ],
+          "fps": 12.0,
+          "duration": 1.5,
+          "bytes": 159315
+        },
+        {
+          "filename": "spacetime_movie.mp4",
+          "codec": "h264",
+          "size": [
+            960,
+            720
+          ],
+          "fps": 12.0,
+          "duration": 7.0,
+          "bytes": 192303
+        }
+      ],
+      "status": "passed",
+      "wall_seconds": 25.673590699909255
+    },
+    {
+      "name": "cpu-ilp",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "device": "cpu",
+      "mode": "ilp",
+      "movie": false,
+      "counts": {
+        "fields": 1,
+        "tracks": 23,
+        "observations": 138,
+        "links": 115,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 12.130655499990098
+    },
+    {
+      "name": "cuda-long-divisions-movies",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-SIM+-01-65frames.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": true,
+      "counts": {
+        "fields": 1,
+        "tracks": 84,
+        "observations": 2607,
+        "links": 2565,
+        "divisions": 21
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [
+        {
+          "filename": "tracking_movie.mp4",
+          "codec": "h264",
+          "size": [
+            960,
+            720
+          ],
+          "fps": 12.0,
+          "duration": 16.25,
+          "bytes": 4334111
+        },
+        {
+          "filename": "spacetime_movie.mp4",
+          "codec": "h264",
+          "size": [
+            960,
+            720
+          ],
+          "fps": 12.0,
+          "duration": 11.83,
+          "bytes": 1050794
+        }
+      ],
+      "status": "passed",
+      "wall_seconds": 75.63536590000149
+    },
+    {
+      "name": "runtime-external-model-cache",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-GOWT1-01-6frames.ome.zarr",
+      "device": "cpu",
+      "mode": "greedy",
+      "movie": false,
+      "external_models": true,
+      "counts": {
+        "fields": 1,
+        "tracks": 23,
+        "observations": 138,
+        "links": 115,
+        "divisions": 0
+      },
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 12.549880499951541
+    }
+  ],
+  "image_id": "sha256:ae3defe99d8f4a8ab43bc9fed8267c9cfa1fec7b8135e9aa54ece3299ff81e36",
+  "runtime_image_id": "sha256:52cc6c647f3f944be6313e4192f9d6e47b1b6fa89b4ddafdd0c49ba55b257297",
+  "shared_model_layer": "sha256:ede59a4b17259d467d35305eff4334c8577442fd51dd7dd6771a2ff2e1f3ce34",
+  "runtime_layers_reused": true,
+  "gpu_probe": {
+    "python": "3.12.3",
+    "architecture": "x86_64",
+    "torch": "2.11.0+cu126",
+    "cuda_runtime": "12.6",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 3060",
+    "trackastra": "0.5.6",
+    "divisualisation": "0.1.0",
+    "napari": "0.8.0"
+  },
+  "cpu_probe": {
+    "python": "3.12.3",
+    "architecture": "x86_64",
+    "torch": "2.11.0+cu126",
+    "cuda_runtime": "12.6",
+    "cuda_available": false,
+    "gpu": null,
+    "trackastra": "0.5.6",
+    "divisualisation": "0.1.0",
+    "napari": "0.8.0"
+  },
+  "unit_tests": {
+    "tests": 24,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "model_image": {
+    "image": "cellularimagingcf/citrackastra-models:v0.1.0",
+    "image_id": "sha256:c441a1a470471cd515447347603592c63528ca096cd1117a8cac6368ad725291",
+    "status": "passed",
+    "file_count": 17,
+    "files_sha256": {
+      "ctc/.DS_Store": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3",
+      "ctc/config.yaml": "ec21c5f18454a1819dc57c16cebfecd07d6022d715ffe592dce9eb15c1eefd8b",
+      "ctc/download.json": "36abf9fa5825b80caa9dd18a6a1f35005a98e63943e8cb05f40267712a745ff8",
+      "ctc/model.pt": "24c290ce74289ee6dac952a3355c9fb7a0a477fda3012656a2c6d80af892981f",
+      "ctc/train_config.yaml": "a3747cbb46cb1f2567973c2bbfcb384b7cb84bb553ee6a81f70423239749c87c",
+      "general_2d/config.yaml": "8e91395ac5a5968c22cbb31c505038a3d1be77b0971d3764bd10146b8df72102",
+      "general_2d/download.json": "f664e45d3c27d35bfd714270ac0e420acf17c19ffbc8651aec12e2b3fa0e97fc",
+      "general_2d/model.pt": "5183fc65d759b09dad4a772ffb94c0598a8687dadf871050d41e4f5de1c37b6b",
+      "general_2d/train_config.yaml": "55b8c2ae72a57278e891dc969762406a0859e4a159771cf634097df68f20d21f",
+      "general_2d_w_SAM2_features/config.yaml": "9306e096d57c5c3edea6ffed8ee48d7460aa9286a0d7545486eba1c968d41b31",
+      "general_2d_w_SAM2_features/download.json": "ffb4a44edcd88a693d19a3a5d516b835f08ee0e3367b74fb60125843e335ab17",
+      "general_2d_w_SAM2_features/model.pt": "d855c1af0c86db94bc7cc4bf23b8b2890c881a1de374aa8d053053db13c7e913",
+      "general_2d_w_SAM2_features/train_config.yaml": "5994bff8ca302c983de4af71bf7d8eef9c0edef8c50bad8be5d12b9082ca02e2",
+      "huggingface/hub/CACHEDIR.TAG": "e8893e2dcb3f4545ef67a0a5b7b769113d38eef1aa61c7c7ba14659b02af955f",
+      "huggingface/hub/models--facebook--sam2.1-hiera-base-plus/refs/main": "0740655f9619fa6881a191b35b5e0b8693c31ada8af6c3be04df2e0b42f7b00d",
+      "huggingface/hub/models--facebook--sam2.1-hiera-base-plus/snapshots/b7320756a13354e7530a63935656d35b2f91a290/sam2.1_hiera_base_plus.pt": "a2345aede8715ab1d5d31b4a509fb160c5a4af1970f199d9054ccfb746c004c5",
+      "sam2-backbone.json": "c3623cd092a7b8b9ce7d2a792467c59438715509ec94a59a3cc612cd9a40a561"
+    },
+    "scope": "Every model-cache file compared byte-for-byte by SHA-256; all Trackastra manifests validated"
+  },
+  "publication": {
+    "platform": "linux/amd64",
+    "images": [
+      {
+        "tag": "cellularimagingcf/citrackastra-models:v0.1.0",
+        "image_id": "sha256:c441a1a470471cd515447347603592c63528ca096cd1117a8cac6368ad725291",
+        "registry_digest": "sha256:c441a1a470471cd515447347603592c63528ca096cd1117a8cac6368ad725291",
+        "size_bytes": 956203834,
+        "source_revision": null,
+        "registry_verified": true
+      },
+      {
+        "tag": "cellularimagingcf/w_citrackastra:v0.1.0-runtime",
+        "image_id": "sha256:52cc6c647f3f944be6313e4192f9d6e47b1b6fa89b4ddafdd0c49ba55b257297",
+        "registry_digest": "sha256:52cc6c647f3f944be6313e4192f9d6e47b1b6fa89b4ddafdd0c49ba55b257297",
+        "size_bytes": 13678749505,
+        "source_revision": "bb82ef456ea3eeaf7fbdbebc0cb9d554df381ddf",
+        "registry_verified": true
+      },
+      {
+        "tag": "cellularimagingcf/w_citrackastra:v0.1.0",
+        "image_id": "sha256:ae3defe99d8f4a8ab43bc9fed8267c9cfa1fec7b8135e9aa54ece3299ff81e36",
+        "registry_digest": "sha256:ae3defe99d8f4a8ab43bc9fed8267c9cfa1fec7b8135e9aa54ece3299ff81e36",
+        "size_bytes": 14634876375,
+        "source_revision": "bb82ef456ea3eeaf7fbdbebc0cb9d554df381ddf",
+        "registry_verified": true
+      }
+    ],
+    "validation_sha256": "9644478669b523c2288b1a39447d6123219fd009e857be7bf3415df12eee6ebd",
+    "model_validation_sha256": "45a65a8e20736c2f99a255d600c0986b69c3711d9735841a9974f37714b75d2a"
+  }
+}

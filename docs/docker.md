@@ -56,12 +56,18 @@ same layout at `/models` for downstream multi-stage builds.
 
 ```powershell
 .venv\Scripts\python tools\download_models.py
+.venv\Scripts\python tools\prepare_publicdata.py
+.venv\Scripts\python tools\prepare_publicdata.py --datasets Fluo-N2DH-SIM+ --frames 65
 .venv\Scripts\python tools\build_docker.py --test-image
 docker run --rm --network none --entrypoint python `
   --mount "type=bind,source=$((Resolve-Path tests).Path),target=/opt/citrackastra/tests,readonly" `
   citrackastra-tests:v0.1.0 -m pytest -q
 .venv\Scripts\python tools\validate_docker.py
 ```
+
+Data/model preparation needs network access; inference does not. For a rerun,
+select a fresh destination with `--output-dir test-results/docker-another-run`.
+Existing validation directories are deliberately refused.
 
 The validation helper runs all inference containers with `--network none`, checks
 all three models on calibrated public plates, tests CPU and CUDA, exercises
@@ -70,6 +76,7 @@ movies on a longer dividing-cell sequence. It compares original pixels/labels,
 checks calibrated coordinates and SQLite integrity, verifies shared output UUIDs
 and decodes encoded video frames to reject blank outputs.
 
-The Docker publication record and GitHub release provide the measured results
-and exact registry digests. Docker testing does not itself establish a production
+The [Docker validation record](docker-validation.md) and
+[GitHub release](https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra/releases/tag/v0.1.0)
+provide the measured results and exact registry digests. Docker testing does not itself establish a production
 OMERO import or Slurm roundtrip.
