@@ -14,14 +14,15 @@ import subprocess
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from uuid import uuid4
 
 import imageio.v2 as imageio
 import numpy as np
 import zarr
 
 
-def execute(command, log=None):
-    result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace")
+def execute(command, log=None, timeout=60):
+    result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout)
     if log:
         log.write_text(result.stdout + "\n" + result.stderr, encoding="utf-8")
     if result.returncode:
@@ -119,7 +120,8 @@ def validate(args):
             output = args.output_dir / case["name"]
             output.mkdir()
             image = args.runtime_image if case.get("external_models") else args.image
-            command = ["docker", "run", "--rm", "--network", "none", "--platform", "linux/amd64", "--cpus", "4", "--memory", "10g", "--shm-size", "1g",
+            container = "citrackastra-validation-" + uuid4().hex[:12]
+            command = ["docker", "run", "--rm", "--name", container, "--network", "none", "--platform", "linux/amd64", "--cpus", "4", "--memory", "10g", "--shm-size", "1g",
                        "--mount", f"type=bind,source={args.input_dir},target=/data/in,readonly", "--mount", f"type=bind,source={output},target=/data/out"]
             if case["device"] == "cuda":
                 command += ["--gpus", "all"]
@@ -127,7 +129,10 @@ def validate(args):
                 command += ["--mount", f"type=bind,source={args.model_dir.resolve()},target=/opt/models,readonly"]
             command += [image, "--infolder", f"/data/in/{case['dataset']}", "--outfolder", "/data/out", "--device", case["device"], "--model", case["model"], "--mode", case["mode"], "--movie", str(case["movie"]).lower(), "--workers", "0", "--batch-size", "1"]
             started = time.perf_counter()
-            execute(command, output / "container.log")
+            try:
+                execute(command, output / "container.log", timeout=args.timeout_seconds)
+            finally:
+                subprocess.run(["docker", "rm", "-f", container], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             result = next(p for p in output.iterdir() if p.is_dir() and not p.name.startswith("."))
             evidence = check_outputs(args.input_dir / case["dataset"], result, case["movie"])
             if case["mode"] == "greedy_nodiv":
@@ -154,4 +159,5 @@ if __name__ == "__main__":
     parser.add_argument("--input-dir", type=Path, default=Path("publicdata/plates"))
     parser.add_argument("--model-dir", type=Path, default=Path("models"))
     parser.add_argument("--output-dir", type=Path, default=Path("test-results/docker-v0.1.0"))
+    parser.add_argument("--timeout-seconds", type=float, default=600, help="Maximum duration per public-data container")
     validate(parser.parse_args())
