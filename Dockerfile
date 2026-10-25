@@ -1,4 +1,5 @@
-FROM python:3.11-slim-bookworm AS runtime
+FROM pytorch/pytorch:2.11.0-cuda12.6-cudnn9-runtime@sha256:3bb77138e105723dd4ed760b82fb63d8310ae3a1afc58f76e0ecf0f776568d33 AS runtime
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 xvfb xauth libgl1 libegl1 libgl1-mesa-dri libglib2.0-0 \
     libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 \
@@ -6,9 +7,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxcb-randr0 libx11-xcb1 libdbus-1-3 libfontconfig1 libfreetype6 libsm6 \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/citrackastra
-# NVIDIA wheels include their userspace CUDA runtime. The host supplies the driver.
-RUN pip install --no-cache-dir torch==2.11.0 torchvision==0.26.0 --index-url https://download.pytorch.org/whl/cu126
-COPY pyproject.toml README.md LICENSE NOTICE.md ./
+# Reuse the official CUDA/PyTorch layers; the host supplies the NVIDIA driver.
+# Keep dependencies independent of application and documentation changes.
+COPY pyproject.toml ./
+RUN pip install --no-cache-dir wheel setuptools \
+    && SAM2_BUILD_CUDA=0 python -c "import subprocess,tomllib; p=tomllib.load(open('pyproject.toml','rb'))['project']; subprocess.check_call(['pip','install','--no-cache-dir','--no-build-isolation',*p['dependencies'],*p['optional-dependencies']['sam2'],*p['optional-dependencies']['movie']])"
+COPY README.md LICENSE NOTICE.md ./
 COPY third_party ./third_party
 COPY citrackastra ./citrackastra
 COPY wrapper.py bilayers_cli.py config.yaml ./
@@ -17,8 +21,7 @@ COPY skills ./skills
 COPY tools/movie_entrypoint.sh ./movie_entrypoint.sh
 # SAM2's optional CUDA extension is unnecessary for image features. Build against
 # the already installed CUDA PyTorch rather than downloading a second torch.
-RUN pip install --no-cache-dir wheel setuptools \
-    && SAM2_BUILD_CUDA=0 pip install --no-cache-dir --no-build-isolation '.[sam2,movie]' \
+RUN pip install --no-cache-dir --no-deps --no-build-isolation . \
     && chmod +x /opt/citrackastra/movie_entrypoint.sh
 ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 \
     CITRACKASTRA_MODELS=/opt/models QT_QPA_PLATFORM=xcb LIBGL_ALWAYS_SOFTWARE=1 \

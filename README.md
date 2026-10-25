@@ -104,9 +104,9 @@ time, not physical Z. Playback FPS is separate from acquisition time calibration
 No independent ground-truth error scoring is implied. Images are stretched only
 for display; source pixels remain unchanged.
 
-Windows renders using a hidden native Qt/OpenGL context. Unattended Linux needs
-Xvfb with Mesa/GLX; `Dockerfile.movie` prepares that runtime. The base workflow
-does not require movie dependencies when `--movie false` (the default).
+Windows renders using a hidden native Qt/OpenGL context. The Docker runtime
+includes Xvfb with Mesa/GLX for unattended Linux rendering. Movie dependencies
+are optional for a local Python installation when `--movie false` (the default).
 An isolated renderer can be selected with `CITRACKASTRA_MOVIE_PYTHON`.
 
 ## Bilayers, BIOMERO and model images
@@ -123,15 +123,23 @@ The container expects `/data/in`, `/data/out` and the offline cache at
 and attach matching databases, CSVs and movies to the corresponding plate.
 The descriptor declares the database and optional movie outputs explicitly.
 
-- `Dockerfile`: headless CUDA tracking runtime.
+- `Dockerfile`: headless CUDA/SAM2 runtime with both movie renderers.
 - `Dockerfile.models`: separate offline cache image with licenses.
-- `Dockerfile.with-models`: combine runtime and model image later.
-- `Dockerfile.movie`: optional unattended Divisualisation rendering runtime.
+- `Dockerfile.with-models`: assemble the complete workflow from the shared images.
+- `Dockerfile.movie`: compatibility recipe for the same movie-enabled runtime.
 
-These are prepared recipes and planned image tags. **No Docker build, Docker Hub
-publication or production OMERO/Slurm roundtrip has been performed.**
-Bind-mounting the local cache is also supported. Install SAM2 extras in a runtime
-that will expose the corresponding model option.
+The versioned Docker Hub images are:
+
+| Image | Contents |
+| --- | --- |
+| `cellularimagingcf/w_citrackastra:v0.1.0` | Complete workflow with all weights and both movies |
+| `cellularimagingcf/w_citrackastra:v0.1.0-runtime` | Same CUDA/SAM2/movie runtime; mount a local model cache |
+| `cellularimagingcf/citrackastra-models:v0.1.0` | Data-only pretrained model cache |
+
+See [Docker usage and rebuilding](docs/docker.md) and the
+[release artifacts](https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra/releases/tag/v0.1.0)
+for validation reports and exact image digests. Production OMERO import and
+Slurm roundtrip validation remain separate deployment checks.
 
 ## Agent skills
 

@@ -36,7 +36,8 @@ def verify(image, directory, output):
         assert actual == expected, "Image model files do not match the local cache"
     finally:
         subprocess.run(["docker", "rm", container], check=True, stdout=subprocess.DEVNULL)
-    report = {"image": image, "status": "passed", "file_count": len(actual), "files_sha256": actual,
+    image_id = subprocess.check_output(["docker", "image", "inspect", image, "--format", "{{.Id}}"], text=True).strip()
+    report = {"image": image, "image_id": image_id, "status": "passed", "file_count": len(actual), "files_sha256": actual,
               "scope": "Every model-cache file compared byte-for-byte by SHA-256; all Trackastra manifests validated"}
     Path(output).parent.mkdir(parents=True, exist_ok=True)
     Path(output).write_text(json.dumps(report, indent=2), encoding="utf-8")
