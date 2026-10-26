@@ -153,13 +153,31 @@ def sequence(group, info, channel=None):
     return np.transpose(np.asarray(arr[tuple(key)]), [remaining.index(a) for a in target])
 
 
-def label_names(group, selection):
+def label_names(group, selection=None):
     if "labels" not in group:
         raise ValueError(f"{group.path or '/'} has no instance labels; segment the image first")
-    available = sorted(name for name, _ in group["labels"].groups() if not name.endswith("_tracks"))
-    chosen = available if selection == "all" else [n.strip() for n in selection.split(",") if n.strip()]
-    if not chosen or len(chosen) != len(set(chosen)) or set(chosen) - set(available):
-        raise ValueError(f"Invalid label selection {selection!r}; available: {available}")
+    labels = group["labels"]
+    registered = metadata(labels).get("labels")
+    if registered is None:
+        # Legacy stores without a registry have no declared order.
+        available = sorted((name for name, child in labels.groups() if metadata(child).get("multiscales")), key=lambda n: (n.casefold(), n))
+    else:
+        if not isinstance(registered, list) or any(not isinstance(n, str) or not n for n in registered) or len(set(registered)) != len(registered):
+            raise ValueError(f"{labels.path}: malformed NGFF label registry")
+        available = registered
+    if selection is not None and not isinstance(selection, str):
+        raise ValueError("Label name must be a string or omitted")
+    requested = (selection or "").strip()
+    chosen = [name for name in available if name.casefold() == requested.casefold()] if requested else available[:1]
+    if len(chosen) != 1:
+        reason = "Ambiguous case-insensitive" if len(chosen) > 1 else "Unknown or missing"
+        raise ValueError(f"{reason} label {selection!r} at {group.path}; available: {available}")
+    try:
+        child = safe_child(labels, chosen[0])
+    except KeyError as exc:
+        raise ValueError(f"Registered label does not exist: {chosen[0]}; available: {available}") from exc
+    if not metadata(child).get("multiscales"):
+        raise ValueError(f"Selected label is not an NGFF multiscale image: {chosen[0]}")
     return chosen
 
 
@@ -198,7 +216,8 @@ def write_tracked(group, name, masks, info):
     definitions = {a["name"]: a for a in info.ms["axes"] if isinstance(a, dict)}
     ms = {"version": "0.4", "name": name, "axes": [copy.deepcopy(definitions.get(a, {"name": a, "type": "time" if a == "t" else "space"})) for a in axes],
           "datasets": [{"path": "0", "coordinateTransformations": [{"type": "scale", "scale": scale[indexes].tolist()}, {"type": "translation", "translation": offset[indexes].tolist()}]}]}
-    attrs = {"multiscales": [ms], "image-label": {"version": "0.4", "source": {"image": "../../"}}}
+    depth = len(PurePosixPath(output.path).relative_to(PurePosixPath(group.path)).parts)
+    attrs = {"multiscales": [ms], "image-label": {"version": "0.4", "source": {"image": "../" * depth}}}
     if group.metadata.zarr_format == 3:
         ms.pop("version")
         attrs = {"ome": {"version": "0.5", **attrs}}

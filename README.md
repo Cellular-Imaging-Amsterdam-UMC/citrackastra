@@ -43,11 +43,16 @@ fields by this adapter, including the upstream CTC model.
 For your own segmented plate:
 
 ```bat
-.venv\Scripts\python wrapper.py --infolder inputfolder --outfolder outputfolder --labels labels_cells --channel 1 --model general_2d --mode greedy --device cuda
+.venv\Scripts\python wrapper.py --infolder inputfolder --outfolder outputfolder --label labels_cells --channel 1 --model general_2d --mode greedy --device cuda
 ```
 
-`--labels all` tracks each input label group independently. Field and label-set
-boundaries are never linked. Channels are one-based. Linking modes are `greedy`
+`--label` optionally selects **one label name, case-insensitively**, in every
+field (`--labels` remains a CLI alias; the JSON parameter is `labels`). Without
+a name, only the first label in the NGFF `labels` registry is tracked. For legacy
+stores without that registry, direct label groups use alphabetical order.
+Missing or ambiguous names fail before any tracking; unselected labels are
+preserved. `all` and comma-separated lists are no longer selection shortcuts.
+Field boundaries are never linked. Channels are one-based. Linking modes are `greedy`
 (divisions allowed), `greedy_nodiv` and `ilp` (installed solver stack; Gurobi may
 be used if licensed). `--parameters` accepts a JSON object; unknown CLI options
 are rejected. See [the workflow reference](skills/use-citrackastra-workflow/references/PARAMETERS.md).
@@ -132,12 +137,12 @@ The versioned Docker Hub images are:
 
 | Image | Contents |
 | --- | --- |
-| `cellularimagingcf/w_citrackastra:v0.1.0` | Complete workflow with all weights and both movies |
-| `cellularimagingcf/w_citrackastra:v0.1.0-runtime` | Same CUDA/SAM2/movie runtime; mount a local model cache |
-| `cellularimagingcf/citrackastra-models:v0.1.0` | Data-only pretrained model cache |
+| `cellularimagingcf/w_citrackastra:v0.1.1` | Complete workflow with all weights and both movies |
+| `cellularimagingcf/w_citrackastra:v0.1.1-runtime` | Same CUDA/SAM2/movie runtime; mount a local model cache |
+| `cellularimagingcf/citrackastra-models:v0.1.1` | Data-only pretrained model cache |
 
 See [Docker usage and rebuilding](docs/docker.md) and the
-[release artifacts](https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra/releases/tag/v0.1.0)
+[release artifacts](https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra/releases/tag/v0.1.1)
 for validation reports and exact image digests. Production OMERO import and
 Slurm roundtrip validation remain separate deployment checks.
 

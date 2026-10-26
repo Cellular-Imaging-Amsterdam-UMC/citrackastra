@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "citrackastra"
-version = "0.1.0"
+version = "0.1.1"
 description = "Calibrated OME-Zarr cell tracking with Trackastra for Bilayers and BIOMERO"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
@@ -15,7 +15,7 @@ dependencies = [
 
 [project.optional-dependencies]
 sam2 = ["trackastra[etultra]==0.5.6"]
-movie = ["divisualisation==0.1.0", "napari>=0.8,<0.9", "PyQt6>=6.7", "imageio-ffmpeg>=0.5"]
+movie = ["divisualisation==0.1.1", "napari>=0.8,<0.9", "PyQt6>=6.7", "imageio-ffmpeg>=0.5"]
 dev = ["pytest>=8,<9"]
 
 [project.scripts]

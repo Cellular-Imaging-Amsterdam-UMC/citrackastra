@@ -1,0 +1,23 @@
+# Reuse a validated runtime when the dependency contract has not changed.
+# Use the regular Dockerfile when adding or updating dependencies.
+ARG RUNTIME_IMAGE
+FROM ${RUNTIME_IMAGE} AS runtime
+WORKDIR /opt/citrackastra
+COPY pyproject.toml /tmp/citrackastra-pyproject.toml
+RUN python -c "import tomllib; old=tomllib.load(open('pyproject.toml','rb'))['project']; new=tomllib.load(open('/tmp/citrackastra-pyproject.toml','rb'))['project']; assert all(old[k]==new[k] for k in ('dependencies','optional-dependencies','requires-python')), 'Dependency contract changed: build with the regular Dockerfile'"
+COPY pyproject.toml README.md LICENSE NOTICE.md ./
+COPY third_party ./third_party
+COPY citrackastra ./citrackastra
+COPY wrapper.py bilayers_cli.py config.yaml plugin.json ./
+COPY skills ./skills
+COPY tools/movie_entrypoint.sh ./movie_entrypoint.sh
+RUN pip install --no-cache-dir --no-deps --no-build-isolation . \
+    && chmod +x /opt/citrackastra/movie_entrypoint.sh
+ARG VCS_REF=unknown
+LABEL org.opencontainers.image.version="0.1.1" \
+      org.opencontainers.image.revision=$VCS_REF
+
+FROM runtime AS tests
+RUN pip install --no-cache-dir 'pytest>=8,<9'
+
+FROM runtime AS production

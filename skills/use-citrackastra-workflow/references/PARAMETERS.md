@@ -7,7 +7,7 @@ instead of guessing a replacement flag.
 | Parameter | Default | Contract |
 | --- | --- | --- |
 | model | general_2d | general_2d, ctc, general_2d_w_SAM2_features; all restricted to 2D plate fields by this adapter |
-| labels | all | All source label groups or comma-separated NGFF names. Existing `_tracks` groups are not selected automatically. |
+| labels | empty | One optional case-insensitive NGFF label name. Empty selects the first registered label per field; registry-free legacy groups use alphabetical order. Missing/ambiguous names fail; `all` is literal. CLI: `--label` or `--labels`. |
 | channel | 1 | One-based intensity channel, independent of the label channel |
 | mode | greedy | greedy permits binary divisions; greedy_nodiv forbids divisions; ilp uses the installed solver stack |
 | device | auto | auto/cuda/cpu/mps; request CUDA only when exposed by the workflow runtime |

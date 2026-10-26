@@ -46,7 +46,7 @@ def verify(image, directory, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--image", default="cellularimagingcf/citrackastra-models:v0.1.0")
+    parser.add_argument("--image", default="cellularimagingcf/citrackastra-models:v0.1.1")
     parser.add_argument("--model-dir", type=Path, default=Path("models"))
     parser.add_argument("--output", type=Path, default=Path("test-results/model-image-verification.json"))
     args = parser.parse_args()

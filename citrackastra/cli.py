@@ -20,7 +20,10 @@ def parser():
             kwargs.update(type=boolean, nargs="?", const=True)
         if field.name == "model":
             kwargs["choices"] = list(MODELS)
-        p.add_argument("--" + field.name.replace("_", "-"), **kwargs)
+        flags = ["--label", "--labels"] if field.name == "labels" else ["--" + field.name.replace("_", "-")]
+        if field.name == "labels":
+            kwargs.update(dest="labels", help="One case-insensitive NGFF label name; omit to use the first registered label")
+        p.add_argument(*flags, **kwargs)
     return p
 
 

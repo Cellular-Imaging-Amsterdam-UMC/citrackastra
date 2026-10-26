@@ -36,7 +36,7 @@ ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONUNBUFFERED=1 \
 ARG VCS_REF=unknown
 LABEL org.opencontainers.image.title="CITrackastra runtime with movie support" \
       org.opencontainers.image.source="https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra" \
-      org.opencontainers.image.version="0.1.0" \
+      org.opencontainers.image.version="0.1.1" \
       org.opencontainers.image.revision=$VCS_REF \
       org.opencontainers.image.licenses="BSD-3-Clause"
 ENTRYPOINT ["/usr/bin/tini", "-g", "--", "/opt/citrackastra/movie_entrypoint.sh"]

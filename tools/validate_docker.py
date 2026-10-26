@@ -50,7 +50,8 @@ def check_outputs(source, result, movies):
         fields = database.execute("SELECT field_id,image_path,source_label,output_label,scale_um_json,origin_um_json FROM fields").fetchall()
         for field_id, path, source_label, output_label, scales, origin in fields:
             np.testing.assert_array_equal(original[f"{path}/0"][:], output[f"{path}/0"][:])
-            np.testing.assert_array_equal(original[f"{path}/labels/{source_label}/0"][:], output[f"{path}/labels/{source_label}/0"][:])
+            for original_label in original[f"{path}/labels"].attrs["labels"]:
+                np.testing.assert_array_equal(original[f"{path}/labels/{original_label}/0"][:], output[f"{path}/labels/{original_label}/0"][:])
             assert output[f"{path}/labels/{output_label}/0"].shape[0] == original[f"{path}/0"].shape[0]
             assert all(v > 0 for v in json.loads(scales))
             expected_pixel_um = float(original.attrs["publicdata"]["pixel_um"])
@@ -78,7 +79,7 @@ def check_outputs(source, result, movies):
                 assert np.std(frame[80:, :, :3]) > 1, f"Blank video: {filename}"
                 videos.append({"filename": filename, "codec": metadata["codec"], "size": list(metadata["size"]), "fps": metadata["fps"], "duration": metadata["duration"], "bytes": (result / filename).stat().st_size})
         assert json.loads((result / "movie.json").read_text(encoding="utf-8"))["ground_truth_errors"] is False
-    return {"counts": counts, "source_pixels_and_labels_preserved": True, "sqlite_integrity": "ok", "calibration": "verified", "shared_output_uuid": True, "model_archive_sha256": provenance["model"]["archive_sha256"], "videos": videos}
+    return {"counts": counts, "selected_labels": [f[2] for f in fields], "source_pixels_and_labels_preserved": True, "sqlite_integrity": "ok", "calibration": "verified", "shared_output_uuid": True, "model_archive_sha256": provenance["model"]["archive_sha256"], "videos": videos}
 
 
 def validate(args):
@@ -113,6 +114,8 @@ def validate(args):
         {"name": "cpu-ilp", "model": "general_2d", "dataset": datasets[0], "device": "cpu", "mode": "ilp", "movie": False},
         {"name": "cuda-long-divisions-movies", "model": "general_2d", "dataset": "Fluo-N2DH-SIM+-01-65frames.ome.zarr", "device": "cuda", "mode": "greedy", "movie": True},
         {"name": "runtime-external-model-cache", "model": "general_2d", "dataset": datasets[0], "device": "cpu", "mode": "greedy", "movie": False, "external_models": True},
+        {"name": "multi-label-default-first", "model": "general_2d", "dataset": "Fluo-N2DH-SIM+-01-6frames-multilabel.ome.zarr", "device": "cuda", "mode": "greedy", "movie": False, "expected_label": "Nuclei"},
+        {"name": "multi-label-case-insensitive", "model": "general_2d", "dataset": "Fluo-N2DH-SIM+-01-6frames-multilabel.ome.zarr", "device": "cuda", "mode": "greedy", "movie": False, "label": "iNsTaNcEs", "expected_label": "instances"},
     ]
     try:
         for case in cases:
@@ -128,6 +131,8 @@ def validate(args):
             if case.get("external_models"):
                 command += ["--mount", f"type=bind,source={args.model_dir.resolve()},target=/opt/models,readonly"]
             command += [image, "--infolder", f"/data/in/{case['dataset']}", "--outfolder", "/data/out", "--device", case["device"], "--model", case["model"], "--mode", case["mode"], "--movie", str(case["movie"]).lower(), "--workers", "0", "--batch-size", "1"]
+            if "label" in case:
+                command += ["--label", case["label"]]
             started = time.perf_counter()
             try:
                 execute(command, output / "container.log", timeout=args.timeout_seconds)
@@ -135,6 +140,9 @@ def validate(args):
                 subprocess.run(["docker", "rm", "-f", container], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             result = next(p for p in output.iterdir() if p.is_dir() and not p.name.startswith("."))
             evidence = check_outputs(args.input_dir / case["dataset"], result, case["movie"])
+            if "expected_label" in case:
+                assert evidence["selected_labels"] == [case["expected_label"]]
+                assert evidence["counts"]["fields"] == 1
             if case["mode"] == "greedy_nodiv":
                 assert evidence["counts"]["divisions"] == 0
             if "long-divisions" in case["name"]:
@@ -153,11 +161,11 @@ def validate(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--image", default="cellularimagingcf/w_citrackastra:v0.1.0")
-    parser.add_argument("--runtime-image", default="cellularimagingcf/w_citrackastra:v0.1.0-runtime")
-    parser.add_argument("--models-image", default="cellularimagingcf/citrackastra-models:v0.1.0")
+    parser.add_argument("--image", default="cellularimagingcf/w_citrackastra:v0.1.1")
+    parser.add_argument("--runtime-image", default="cellularimagingcf/w_citrackastra:v0.1.1-runtime")
+    parser.add_argument("--models-image", default="cellularimagingcf/citrackastra-models:v0.1.1")
     parser.add_argument("--input-dir", type=Path, default=Path("publicdata/plates"))
     parser.add_argument("--model-dir", type=Path, default=Path("models"))
-    parser.add_argument("--output-dir", type=Path, default=Path("test-results/docker-v0.1.0"))
+    parser.add_argument("--output-dir", type=Path, default=Path("test-results/docker-v0.1.1"))
     parser.add_argument("--timeout-seconds", type=float, default=600, help="Maximum duration per public-data container")
     validate(parser.parse_args())

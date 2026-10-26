@@ -6,9 +6,9 @@ Model weights are separated from the common runtime so they can be reused.
 
 | Image tag | Contents | Intended use |
 | --- | --- | --- |
-| `cellularimagingcf/w_citrackastra:v0.1.0` | Complete workflow, local pretrained weights, SAM2 backbone and movies | Default for BIOMERO/Apptainer and Docker |
-| `cellularimagingcf/w_citrackastra:v0.1.0-runtime` | CUDA runtime, all adapters and movie libraries; no weights | Mount an existing offline model cache |
-| `cellularimagingcf/citrackastra-models:v0.1.0` | Checkpoints, backbone cache and license notices | Data-only build stage; not an executable workflow |
+| `cellularimagingcf/w_citrackastra:v0.1.1` | Complete workflow, local pretrained weights, SAM2 backbone and movies | Default for BIOMERO/Apptainer and Docker |
+| `cellularimagingcf/w_citrackastra:v0.1.1-runtime` | CUDA runtime, all adapters and movie libraries; no weights | Mount an existing offline model cache |
+| `cellularimagingcf/citrackastra-models:v0.1.1` | Checkpoints, backbone cache and license notices | Data-only build stage; not an executable workflow |
 
 The standard workflow image is assembled from the runtime and separate model
 image using `Dockerfile.with-models`. Movie support is headless: an internal
@@ -22,11 +22,11 @@ through `/opt/models`, so pulling both images does not duplicate that layer.
 PowerShell example, from the repository directory:
 
 ```powershell
-docker pull cellularimagingcf/w_citrackastra:v0.1.0
+docker pull cellularimagingcf/w_citrackastra:v0.1.1
 docker run --rm --gpus all --network none --shm-size 1g `
   --mount "type=bind,source=$((Resolve-Path inputfolder).Path),target=/data/in,readonly" `
   --mount "type=bind,source=$((Resolve-Path outputfolder).Path),target=/data/out" `
-  cellularimagingcf/w_citrackastra:v0.1.0 `
+  cellularimagingcf/w_citrackastra:v0.1.1 `
   --infolder /data/in --outfolder /data/out --device cuda --movie true
 ```
 
@@ -58,10 +58,11 @@ same layout at `/models` for downstream multi-stage builds.
 .venv\Scripts\python tools\download_models.py
 .venv\Scripts\python tools\prepare_publicdata.py
 .venv\Scripts\python tools\prepare_publicdata.py --datasets Fluo-N2DH-SIM+ --frames 65
+.venv\Scripts\python tools\prepare_label_example.py
 .venv\Scripts\python tools\build_docker.py --test-image
 docker run --rm --network none --entrypoint python `
   --mount "type=bind,source=$((Resolve-Path tests).Path),target=/opt/citrackastra/tests,readonly" `
-  citrackastra-tests:v0.1.0 -m pytest -q
+  citrackastra-tests:v0.1.1 -m pytest -q
 .venv\Scripts\python tools\validate_docker.py
 ```
 
@@ -73,10 +74,16 @@ The validation helper runs all inference containers with `--network none`, check
 all three models on calibrated public plates, tests CPU and CUDA, exercises
 division-free and ILP modes, checks the external-cache runtime and verifies both
 movies on a longer dividing-cell sequence. It compares original pixels/labels,
-checks calibrated coordinates and SQLite integrity, verifies shared output UUIDs
+checks calibrated coordinates and SQLite integrity, verifies one-label default/case-insensitive selection, shared output UUIDs
 and decodes encoded video frames to reject blank outputs.
 
 The [Docker validation record](docker-validation.md) and
-[GitHub release](https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra/releases/tag/v0.1.0)
+[GitHub release](https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra/releases/tag/v0.1.1)
 provide the measured results and exact registry digests. Docker testing does not itself establish a production
 OMERO import or Slurm roundtrip.
+
+## Label selection and format boundary
+
+Version 0.1.1 tracks one label per field: omit the name for the first registered label, or pass `--label Nuclei` with case-insensitive matching. `--labels` is a CLI alias; the JSON key remains `labels`. Explicit names must resolve unambiguously in every field. `all` and comma-separated lists are not shortcuts. Source labels are preserved.
+
+NGFF 0.4 / Zarr v2 remains required. NGFF 0.5 / Zarr v3 support is deferred, consistent with the currently documented BIOMERO.shallower format boundary. See the [upstream README](https://github.com/NL-BioImaging/BIOMERO.shallower#readme).

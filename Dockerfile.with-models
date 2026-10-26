@@ -1,5 +1,5 @@
-ARG MODEL_IMAGE=cellularimagingcf/citrackastra-models:v0.1.0
-ARG RUNTIME_IMAGE=cellularimagingcf/w_citrackastra:v0.1.0-runtime
+ARG MODEL_IMAGE=cellularimagingcf/citrackastra-models:v0.1.1
+ARG RUNTIME_IMAGE=cellularimagingcf/w_citrackastra:v0.1.1-runtime
 FROM ${MODEL_IMAGE} AS models
 FROM ${RUNTIME_IMAGE}
 # Preserve the model layer's destination so Docker Hub can reuse its blob.

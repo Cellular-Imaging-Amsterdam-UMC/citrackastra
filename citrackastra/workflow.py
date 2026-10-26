@@ -27,7 +27,7 @@ from .ngff import check_label_alignment, image_groups, inspect_image, label_name
 class Settings:
     model: str = "general_2d"
     model_dir: str = os.environ.get("CITRACKASTRA_MODELS", "models")
-    labels: str = "all"
+    labels: str = ""
     channel: int = 1
     mode: str = "greedy"
     device: str = "auto"
@@ -42,6 +42,8 @@ class Settings:
             raise ValueError("Unknown model or linking mode")
         if self.device not in {"auto", "cpu", "cuda", "mps"}:
             raise ValueError("Device must be auto, cpu, cuda or mps")
+        if self.labels is not None and not isinstance(self.labels, str):
+            raise ValueError("Label name must be a string or omitted")
         if any(type(v) is not int for v in (self.channel, self.workers, self.batch_size)) or self.channel < 1 or self.workers < 0 or self.batch_size < 1:
             raise ValueError("Channel/batch size must be positive; workers must be nonnegative")
         if not math.isfinite(self.max_memory_gb) or self.max_memory_gb <= 0:

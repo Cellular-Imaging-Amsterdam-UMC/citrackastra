@@ -10,7 +10,7 @@ citations:
 docker_image:
   org: cellularimagingcf
   name: w_citrackastra
-  tag: v0.1.0
+  tag: v0.1.1
   platform: linux/amd64
 algorithm_folder_name: citrackastra_inference
 exec_function:
@@ -100,7 +100,7 @@ parameters:
   optional: true
   section_id: essential
   mode: beginner
-- {name: labels, type: string, label: Instance label sets, description: 'all or comma-separated NGFF label names, for example labels_cells,labels_nuclei. Each field and label set is tracked independently.', default: all, cli_tag: --labels, cli_order: 11, optional: true, section_id: essential, mode: beginner}
+- {name: labels, type: string, label: Instance label name (optional), description: 'One NGFF label name, matched case-insensitively, for example labels_cells. Leave empty to track only the first label in each field (NGFF label order). An unknown or ambiguous name fails before tracking.', default: '', cli_tag: --labels, cli_order: 11, optional: true, section_id: essential, mode: beginner}
 - {name: channel, type: integer, label: Image channel (one-based), default: 1, minimum: 1, cli_tag: --channel, cli_order: 12, optional: true, section_id: essential, mode: beginner}
 - name: mode
   type: dropdown

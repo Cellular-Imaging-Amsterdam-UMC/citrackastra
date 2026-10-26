@@ -44,7 +44,7 @@ def publish(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--validation", type=Path, default=Path("test-results/docker-v0.1.0/docker-validation.json"))
+    parser.add_argument("--validation", type=Path, default=Path("test-results/docker-v0.1.1/docker-validation.json"))
     parser.add_argument("--models-validation", type=Path, default=Path("test-results/model-image-verification.json"))
-    parser.add_argument("--output", type=Path, default=Path("test-results/docker-v0.1.0/image-manifest.json"))
+    parser.add_argument("--output", type=Path, default=Path("test-results/docker-v0.1.1/image-manifest.json"))
     publish(parser.parse_args())
