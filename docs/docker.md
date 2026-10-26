@@ -87,3 +87,11 @@ OMERO import or Slurm roundtrip.
 Version 0.1.1 tracks one label per field: omit the name for the first registered label, or pass `--label Nuclei` with case-insensitive matching. `--labels` is a CLI alias; the JSON key remains `labels`. Explicit names must resolve unambiguously in every field. `all` and comma-separated lists are not shortcuts. Source labels are preserved.
 
 NGFF 0.4 / Zarr v2 remains required. NGFF 0.5 / Zarr v3 support is deferred, consistent with the currently documented BIOMERO.shallower format boundary. See the [upstream README](https://github.com/NL-BioImaging/BIOMERO.shallower#readme).
+
+For a patch with unchanged dependencies, the build helper can reuse a tested runtime by digest:
+
+```powershell
+.venv\Scripts\python tools\build_docker.py --test-image --runtime-base cellularimagingcf/w_citrackastra:v0.1.0-runtime@sha256:52cc6c647f3f944be6313e4192f9d6e47b1b6fa89b4ddafdd0c49ba55b257297
+```
+
+`Dockerfile.patch` checks the dependency definitions before reuse. Any dependency change requires the regular full build.

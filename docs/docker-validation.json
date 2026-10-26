@@ -1,10 +1,10 @@
 {
-  "created_utc": "2026-10-25T18:52:25.098692+00:00",
+  "created_utc": "2026-10-26T09:55:15.628478+00:00",
   "status": "passed",
   "network": "none for every inference container",
   "platform": "linux/amd64",
-  "image": "cellularimagingcf/w_citrackastra:v0.1.0",
-  "runtime_image": "cellularimagingcf/w_citrackastra:v0.1.0-runtime",
+  "image": "cellularimagingcf/w_citrackastra:v0.1.1",
+  "runtime_image": "cellularimagingcf/w_citrackastra:v0.1.1-runtime",
   "cases": [
     {
       "name": "cuda-general_2d-0",
@@ -20,6 +20,9 @@
         "links": 115,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -27,7 +30,7 @@
       "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 14.758493200060911
+      "wall_seconds": 17.163383699953556
     },
     {
       "name": "cuda-general_2d-1",
@@ -43,6 +46,9 @@
         "links": 150,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -50,7 +56,7 @@
       "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 12.134765299968421
+      "wall_seconds": 11.915222199982964
     },
     {
       "name": "cuda-general_2d-2",
@@ -66,6 +72,9 @@
         "links": 30,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -73,7 +82,7 @@
       "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 11.435261399950832
+      "wall_seconds": 11.636983499978669
     },
     {
       "name": "cuda-ctc-0",
@@ -89,6 +98,9 @@
         "links": 115,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -96,7 +108,7 @@
       "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 13.355071599944495
+      "wall_seconds": 14.010898499982432
     },
     {
       "name": "cuda-ctc-1",
@@ -112,6 +124,9 @@
         "links": 150,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -119,7 +134,7 @@
       "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 11.51458850002382
+      "wall_seconds": 12.255629700026475
     },
     {
       "name": "cuda-ctc-2",
@@ -135,6 +150,9 @@
         "links": 30,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -142,7 +160,7 @@
       "model_archive_sha256": "2ede08481b2e1f4ea23a41dd3001e2151ecbce7d978be9829ad230f0a60aea0e",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 10.60699740005657
+      "wall_seconds": 11.400893499958329
     },
     {
       "name": "cuda-general_2d_w_SAM2_features-0",
@@ -158,6 +176,9 @@
         "links": 115,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -188,7 +209,7 @@
         }
       ],
       "status": "passed",
-      "wall_seconds": 29.474122200044803
+      "wall_seconds": 31.52247460000217
     },
     {
       "name": "cuda-general_2d_w_SAM2_features-1",
@@ -204,6 +225,9 @@
         "links": 150,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -211,7 +235,7 @@
       "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 13.24562609998975
+      "wall_seconds": 13.932998900068924
     },
     {
       "name": "cuda-general_2d_w_SAM2_features-2",
@@ -227,6 +251,9 @@
         "links": 30,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -234,7 +261,7 @@
       "model_archive_sha256": "6325c6706f7877ac817d9f56d72faf29ff1df41b1795f2f57b735434425e115d",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 12.198674399987794
+      "wall_seconds": 12.725155399995856
     },
     {
       "name": "cpu-no-divisions-movies",
@@ -250,6 +277,9 @@
         "links": 115,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -280,7 +310,7 @@
         }
       ],
       "status": "passed",
-      "wall_seconds": 25.673590699909255
+      "wall_seconds": 26.72287930001039
     },
     {
       "name": "cpu-ilp",
@@ -296,6 +326,9 @@
         "links": 115,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -303,7 +336,7 @@
       "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 12.130655499990098
+      "wall_seconds": 13.205480700009502
     },
     {
       "name": "cuda-long-divisions-movies",
@@ -319,6 +352,9 @@
         "links": 2565,
         "divisions": 21
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -349,7 +385,7 @@
         }
       ],
       "status": "passed",
-      "wall_seconds": 75.63536590000149
+      "wall_seconds": 80.33979060000274
     },
     {
       "name": "runtime-external-model-cache",
@@ -366,6 +402,9 @@
         "links": 115,
         "divisions": 0
       },
+      "selected_labels": [
+        "instances"
+      ],
       "source_pixels_and_labels_preserved": true,
       "sqlite_integrity": "ok",
       "calibration": "verified",
@@ -373,11 +412,66 @@
       "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
       "videos": [],
       "status": "passed",
-      "wall_seconds": 12.549880499951541
+      "wall_seconds": 13.381943200016394
+    },
+    {
+      "name": "multi-label-default-first",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-SIM+-01-6frames-multilabel.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "expected_label": "Nuclei",
+      "counts": {
+        "fields": 1,
+        "tracks": 30,
+        "observations": 180,
+        "links": 150,
+        "divisions": 0
+      },
+      "selected_labels": [
+        "Nuclei"
+      ],
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 12.733517699991353
+    },
+    {
+      "name": "multi-label-case-insensitive",
+      "model": "general_2d",
+      "dataset": "Fluo-N2DH-SIM+-01-6frames-multilabel.ome.zarr",
+      "device": "cuda",
+      "mode": "greedy",
+      "movie": false,
+      "label": "iNsTaNcEs",
+      "expected_label": "instances",
+      "counts": {
+        "fields": 1,
+        "tracks": 30,
+        "observations": 180,
+        "links": 150,
+        "divisions": 0
+      },
+      "selected_labels": [
+        "instances"
+      ],
+      "source_pixels_and_labels_preserved": true,
+      "sqlite_integrity": "ok",
+      "calibration": "verified",
+      "shared_output_uuid": true,
+      "model_archive_sha256": "35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876",
+      "videos": [],
+      "status": "passed",
+      "wall_seconds": 12.1681720999768
     }
   ],
-  "image_id": "sha256:ae3defe99d8f4a8ab43bc9fed8267c9cfa1fec7b8135e9aa54ece3299ff81e36",
-  "runtime_image_id": "sha256:52cc6c647f3f944be6313e4192f9d6e47b1b6fa89b4ddafdd0c49ba55b257297",
+  "image_id": "sha256:ac40cee56a3683672342a5ba09db8c81ff4303950862c62d783f2273eb5f4746",
+  "runtime_image_id": "sha256:cfc426e14d01aa7723d343e3ba3810b22df88b44ab4fbcfd9774d82e6fea3909",
   "shared_model_layer": "sha256:ede59a4b17259d467d35305eff4334c8577442fd51dd7dd6771a2ff2e1f3ce34",
   "runtime_layers_reused": true,
   "gpu_probe": {
@@ -403,14 +497,14 @@
     "napari": "0.8.0"
   },
   "unit_tests": {
-    "tests": 24,
+    "tests": 39,
     "failures": 0,
     "errors": 0,
     "skipped": 0
   },
   "model_image": {
-    "image": "cellularimagingcf/citrackastra-models:v0.1.0",
-    "image_id": "sha256:c441a1a470471cd515447347603592c63528ca096cd1117a8cac6368ad725291",
+    "image": "cellularimagingcf/citrackastra-models:v0.1.1",
+    "image_id": "sha256:3e97cb7f65533ea66a19a168b6a8a6e6fba2d072fd3ea3acaea422ae7717b8ac",
     "status": "passed",
     "file_count": 17,
     "files_sha256": {
@@ -438,31 +532,31 @@
     "platform": "linux/amd64",
     "images": [
       {
-        "tag": "cellularimagingcf/citrackastra-models:v0.1.0",
-        "image_id": "sha256:c441a1a470471cd515447347603592c63528ca096cd1117a8cac6368ad725291",
-        "registry_digest": "sha256:c441a1a470471cd515447347603592c63528ca096cd1117a8cac6368ad725291",
+        "tag": "cellularimagingcf/citrackastra-models:v0.1.1",
+        "image_id": "sha256:3e97cb7f65533ea66a19a168b6a8a6e6fba2d072fd3ea3acaea422ae7717b8ac",
+        "registry_digest": "sha256:3e97cb7f65533ea66a19a168b6a8a6e6fba2d072fd3ea3acaea422ae7717b8ac",
         "size_bytes": 956203834,
         "source_revision": null,
         "registry_verified": true
       },
       {
-        "tag": "cellularimagingcf/w_citrackastra:v0.1.0-runtime",
-        "image_id": "sha256:52cc6c647f3f944be6313e4192f9d6e47b1b6fa89b4ddafdd0c49ba55b257297",
-        "registry_digest": "sha256:52cc6c647f3f944be6313e4192f9d6e47b1b6fa89b4ddafdd0c49ba55b257297",
-        "size_bytes": 13678749505,
-        "source_revision": "bb82ef456ea3eeaf7fbdbebc0cb9d554df381ddf",
+        "tag": "cellularimagingcf/w_citrackastra:v0.1.1-runtime",
+        "image_id": "sha256:cfc426e14d01aa7723d343e3ba3810b22df88b44ab4fbcfd9774d82e6fea3909",
+        "registry_digest": "sha256:cfc426e14d01aa7723d343e3ba3810b22df88b44ab4fbcfd9774d82e6fea3909",
+        "size_bytes": 13679348935,
+        "source_revision": "fb4df7ca18aa28fa9691a83175adb6928dac5c44",
         "registry_verified": true
       },
       {
-        "tag": "cellularimagingcf/w_citrackastra:v0.1.0",
-        "image_id": "sha256:ae3defe99d8f4a8ab43bc9fed8267c9cfa1fec7b8135e9aa54ece3299ff81e36",
-        "registry_digest": "sha256:ae3defe99d8f4a8ab43bc9fed8267c9cfa1fec7b8135e9aa54ece3299ff81e36",
-        "size_bytes": 14634876375,
-        "source_revision": "bb82ef456ea3eeaf7fbdbebc0cb9d554df381ddf",
+        "tag": "cellularimagingcf/w_citrackastra:v0.1.1",
+        "image_id": "sha256:ac40cee56a3683672342a5ba09db8c81ff4303950862c62d783f2273eb5f4746",
+        "registry_digest": "sha256:ac40cee56a3683672342a5ba09db8c81ff4303950862c62d783f2273eb5f4746",
+        "size_bytes": 14635475805,
+        "source_revision": "fb4df7ca18aa28fa9691a83175adb6928dac5c44",
         "registry_verified": true
       }
     ],
-    "validation_sha256": "9644478669b523c2288b1a39447d6123219fd009e857be7bf3415df12eee6ebd",
-    "model_validation_sha256": "45a65a8e20736c2f99a255d600c0986b69c3711d9735841a9974f37714b75d2a"
+    "validation_sha256": "cd9c7cf0dbb5514ea6fbdb9a0abedf7b9db6146da3f97ea28c3b5a50ddb9793c",
+    "model_validation_sha256": "3fa09cdf4754b53e224de8da5e77eeca8d8d8fbc60991898c09739fd47bf0a3f"
   }
 }
