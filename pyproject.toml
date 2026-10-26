@@ -15,7 +15,7 @@ dependencies = [
 
 [project.optional-dependencies]
 sam2 = ["trackastra[etultra]==0.5.6"]
-movie = ["divisualisation==0.1.1", "napari>=0.8,<0.9", "PyQt6>=6.7", "imageio-ffmpeg>=0.5"]
+movie = ["divisualisation==0.1.0", "napari>=0.8,<0.9", "PyQt6>=6.7", "imageio-ffmpeg>=0.5"]
 dev = ["pytest>=8,<9"]
 
 [project.scripts]

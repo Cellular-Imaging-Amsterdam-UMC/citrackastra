@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "citrackastra",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Agent skills for calibrated 2D time-series plate tracking and CITrackastra result analysis.",
   "author": {"name": "Cellular Imaging Amsterdam UMC", "url": "https://github.com/Cellular-Imaging-Amsterdam-UMC"},
   "homepage": "https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra",
