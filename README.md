@@ -91,8 +91,13 @@ Track IDs are local to `(field_id, track_id)`. Original instance IDs are retaine
 separately. CTC tracklets split at gaps and divisions; `parent_kind` distinguishes
 them. Physical coordinates use ordered NGFF transforms in micrometers; unknown
 time calibration gives frames and micrometers/frame. Singleton speeds are NULL.
-The database output UUID matches `citrackastra.output_store_uuid` in the result
-store. See [schema and SQL](skills/analyze-citrackastra-tracks/references/SCHEMA.md).
+The database output UUID matches the common `biomero.result.output_store_uuid`
+root attribute (`biomero.result.schema_version = 1`). This workflow-independent
+contract lets ZarrViewer resolve results without a producer-specific adapter.
+Each new result replaces any inherited `biomero.result` identity, while retaining
+unrelated metadata. `citrackastra.output_store_uuid` remains available for older
+consumers and contains the same UUID. Existing results using that legacy
+attribute remain supported. See [schema and SQL](skills/analyze-citrackastra-tracks/references/SCHEMA.md).
 
 Completed destinations cannot be overwritten. All artifacts publish together by
 a same-filesystem directory rename after success. A failed run retains a hidden

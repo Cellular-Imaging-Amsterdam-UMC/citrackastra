@@ -41,6 +41,8 @@ def test_standalone_full_roundtrip_preserves_pixels_labels_and_root_paths(tmp_pa
         assert db.execute("SELECT COUNT(*) FROM links").fetchone() == (2,)
     report = json.loads((result / "provenance.json").read_text())
     assert report["execution"]["split_tracking"] is False
+    assert output.attrs["biomero"]["result"] == {
+        "schema_version": 1, "output_store_uuid": report["output_store_uuid"]}
 
 
 def test_lazy_reads_retain_axes_and_do_not_decode_full_sequence(tmp_path, monkeypatch):

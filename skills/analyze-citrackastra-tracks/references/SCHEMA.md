@@ -1,6 +1,10 @@
 # CITrackastra SQLite schema 1
 
 `schema_info(key,value)` records `format`, `schema_version`, `output_store_uuid`.
+The output UUID also appears in the result store's common root metadata:
+`biomero.result = {"schema_version": 1, "output_store_uuid": "<same UUID>"}`.
+Legacy `citrackastra.output_store_uuid` remains available with the same value.
+Use the output UUID for viewer binding; a source UUID identifies a different store.
 `run(key,value)` stores JSON values: workflow/version, Trackastra version,
 settings, model download URLs/hashes, output UUID, source path, field summaries,
 completion status and optional movie metadata. Expect `status` to decode as
