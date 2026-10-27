@@ -193,6 +193,43 @@ graph/model costs are additional and density dependent.
 `--max-memory-gb` is not a hard RAM or VRAM limit. Inference uses the original
 pixel grid: calibrated output does not resample anisotropic pixels for the model.
 
+## Convert complete Cell Tracking Challenge inputs
+
+`tools/convert_ctc_ngff.py` converts the complete training ZIPs for
+`Fluo-N2DH-GOWT1` and `Fluo-N2DL-HeLa`. It writes one standalone NGFF 0.4,
+Zarr-v2 image per sequence, with TCYX axes, native pixels and label IDs,
+frame-sized chunks, and the acquisition calibration published by CTC.
+It does not download data, run tracking, truncate time or create artificial wells.
+
+```powershell
+.venv\Scripts\python.exe tools\convert_ctc_ngff.py --archive publicdata/downloads/Fluo-N2DH-GOWT1.zip --dataset Fluo-N2DH-GOWT1 --inspect
+.venv\Scripts\python.exe tools\convert_ctc_ngff.py --archive publicdata/downloads/Fluo-N2DH-GOWT1.zip --dataset Fluo-N2DH-GOWT1 --output inputfolder/ctc
+```
+
+Complete `ERR_SEG`, `ST/SEG`, `GT/SEG` and `GT/TRA` series are registered as
+separate overlays, in that order. Their names are `ctc_err_seg`,
+`ctc_st_segmentation`, `ctc_gt_segmentation` and `ctc_tra_markers`.
+Incomplete annotations are stored under `ctc_annotations/<name>/frame_<index>`
+with explicit frame indices; unannotated frames are never replaced with zero
+masks. These sparse references are custom annotation arrays, not full NGFF
+overlays or tracking inputs. Original lineage text and the input ZIP SHA-256
+are retained in the root `ctc` metadata. Every written plane is read back and
+compared exactly before publishing; existing output stores are refused.
+
+For an initial linking test, select `model=ctc`, `channel=1`,
+`labels=ctc_err_seg`, `mode=greedy`, `workers=0` and `batch_size=1`.
+Use `mode=ilp` for a separate optimizer comparison with cell divisions enabled.
+`ctc_st_segmentation` is a separate full-segmentation input; `ctc_tra_markers`
+contains reference tracking markers rather than complete nuclear masks.
+The current `ctc` checkpoint is the successor of the 2024 winning model;
+these settings do not claim exact reproduction of that submission.
+These training sequences overlap its training data, so they are pipeline and
+linking checks, not independent generalization benchmarks. No extra workflow
+parameter is required to start. Advanced maximum linking distance, neighbor
+count and temporal gap are currently inherited from Trackastra's Python API
+(256 native pixels, 10 neighbors, 1 frame); they are not independently exposed
+in the workflow. Do not change them without a documented test purpose.
+
 ## License and citation
 
 CITrackastra is **BSD-3-Clause**; see [LICENSE](LICENSE).

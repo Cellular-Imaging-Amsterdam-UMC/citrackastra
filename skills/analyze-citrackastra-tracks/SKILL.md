@@ -20,9 +20,12 @@ inspection. Aggregate/filter in SQL before loading a bounded result into Python.
 Always retain `(field_id, track_id)` together: track IDs restart for every field
 and label set. An observation's source key is image path, source label name,
 timepoint and source label value. The tracked label value is its track ID.
-Never join another database or store using numeric IDs alone. Verify the database
-output UUID against the OME-Zarr root's `citrackastra.output_store_uuid` before
-overlay navigation. CISegmentation's retained source UUID is a different identity.
+Never join another database using numeric IDs alone. For a user-selected image
+overlay, use the workspace Image input independently of the tracking database;
+no shared UUID or source/result relationship is required. Verify native pixel
+coordinates, dimensions and frame/Z indices against that image. Only an explicit
+legacy UUID-navigation request requires matching the database output UUID to the
+store's `citrackastra.output_store_uuid` (not an inherited source UUID).
 
 Track IDs identify contiguous CTC tracklets. Both divisions and gap continuations
 create child segments; count division events from `links.kind='division'`, not
