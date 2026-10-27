@@ -1,17 +1,17 @@
 ---
 name: use-citrackastra-workflow
-description: Configure, launch and verify the CITrackastra Bilayers/BIOMERO workflow for calibrated 2D time-series plates with existing instance labels, including optional Divisualisation MP4 output.
+description: Configure, launch and verify the CITrackastra Bilayers/BIOMERO workflow for calibrated standalone 2D timelapse images or HCS plates with existing instance labels, including optional Divisualisation MP4 output.
 metadata:
   version: "1"
 ---
 
 # Use the CITrackastra workflow
 
-Resolve the selected plate and configured workflow revision. Read the installed
+Resolve the selected image or plate and configured workflow revision. Read the installed
 descriptor and [PARAMETERS.md](references/PARAMETERS.md) before proposing settings.
-CITrackastra accepts only NGFF HCS plates with 2D time series: every field needs
+CITrackastra accepts standalone NGFF timelapse images and HCS plates: every image or field needs
 T>=2, Z absent/singleton, positive calibrated XY units and aligned instance labels.
-It performs association, not segmentation. Reject standalone images, static plates,
+It performs association, not segmentation. Reject static images,
 volumes and labels-only overlays without the source pixels; do not project them.
 
 Check label names, the one-based image channel, model availability, compute
@@ -30,11 +30,11 @@ Verify actual outputs after completion: a result OME-Zarr with matching original
 pixels/labels and trajectory labels, a schema-1 SQLite database, CSV exports,
 provenance and both MP4s and movie metadata when requested. Check complete status and
 the shared output-store UUID. A scheduler completion alone is insufficient.
-Retain workflow ref/commit, resolved parameters, input plate, run ID and output
+Retain workflow ref/commit, resolved parameters, input image or plate, run ID and output
 identities. Preserve failed staging evidence; do not delete or overwrite it as
 a recovery shortcut. Retry a failed job only within explicit user authorization,
 after checking that no run remains active and no completed destination conflicts.
 
-Each plate can produce a conventional 2D tracking MP4 and a spacetime MP4,
+Each image or plate can produce a conventional 2D tracking MP4 and a spacetime MP4,
 both with sequential field/label segments. The spacetime movie uses Divisualisation's spacetime display; the vertical coordinate is time, not Z.
 No independent ground-truth error scoring is implied.

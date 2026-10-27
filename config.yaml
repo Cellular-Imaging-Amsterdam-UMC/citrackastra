@@ -2,7 +2,7 @@ citations:
 - name: CITrackastra
   doi: https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra
   license: BSD-3-Clause
-  description: Calibrated 2D time-series HCS plate tracking of existing instance segmentations.
+  description: Calibrated 2D time-series image and HCS plate tracking of existing instance segmentations.
 - name: Trackastra (Gallusser and Weigert, ECCV 2024)
   doi: https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/09819.pdf
   license: BSD-3-Clause
@@ -21,8 +21,8 @@ exec_function:
 inputs:
 - name: infolder
   type: image
-  label: Calibrated 2D time-series plates with instance labels
-  description: NGFF HCS plates only. Every field must have at least two timepoints, no non-singleton Z axis, and aligned calibrated instance labels. Segment upstream first. Standalone images and static plates are rejected.
+  label: Calibrated 2D timelapse images or plates with instance labels
+  description: Standalone NGFF images or HCS plates. Every image or field must have at least two timepoints, no non-singleton Z axis, and aligned calibrated instance labels. Segment upstream first. Static images and volumes are rejected.
   cli_tag: --infolder
   cli_order: 1
   default: directory
@@ -89,7 +89,7 @@ parameters:
 - name: model
   type: dropdown
   label: Pretrained tracking model
-  description: All models are restricted to 2D time-series plate fields. The SAM2 variant needs optional SAM2 packages and its cached backbone.
+  description: All models support calibrated 2D timelapse images and plate fields. The SAM2 variant needs optional SAM2 packages and its cached backbone.
   options:
   - {label: General 2D, value: general_2d}
   - {label: CTC (2D plate fields), value: ctc}

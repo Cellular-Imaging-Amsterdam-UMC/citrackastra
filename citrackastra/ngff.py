@@ -35,10 +35,14 @@ def safe_child(group, path):
 
 
 def image_groups(root):
-    """Resolve only image fields explicitly listed in an NGFF HCS plate."""
+    """Resolve a standalone timelapse or explicitly listed HCS image fields."""
+    if metadata(root).get("multiscales"):
+        if metadata(root).get("plate"):
+            raise ValueError("A store cannot be both an NGFF image and an HCS plate")
+        return [""]
     plate = metadata(root).get("plate")
     if not isinstance(plate, dict) or metadata(root).get("multiscales"):
-        raise ValueError("Input must be an NGFF HCS plate with 2D time series; standalone images are not supported")
+        raise ValueError("Input must declare an NGFF timelapse image or HCS plate with 2D time series")
     paths = []
     for item in plate.get("wells", []):
         well = safe_child(root, item["path"])
@@ -127,7 +131,7 @@ def inspect_image(group):
                      np.array(physical_origin), seconds, offset[ti] * TIME_S[units["t"]] if seconds else 0., dimensions)
 
 
-def sequence(group, info, channel=None):
+def sequence(group, info, channel=None, *, lazy=False):
     ms = multiscale(group)
     arr = safe_child(group, ms["datasets"][0]["path"])
     names = axes_of(ms, arr.ndim)
@@ -150,7 +154,13 @@ def sequence(group, info, channel=None):
     target = list("tzyx" if info.dimensions == 3 else "tyx")
     if set(remaining) != set(target):
         raise ValueError("Image and label axes are incompatible")
-    return np.transpose(np.asarray(arr[tuple(key)]), [remaining.index(a) for a in target])
+    if lazy:
+        import dask.array as da
+        chunks = tuple(1 if name in "tcz" else size for name, size in zip(names, arr.shape))
+        values = da.from_array(arr, chunks=chunks, asarray=False, fancy=False)[tuple(key)]
+    else:
+        values = np.asarray(arr[tuple(key)])
+    return np.transpose(values, [remaining.index(a) for a in target])
 
 
 def label_names(group, selection=None):
@@ -211,7 +221,9 @@ def write_tracked(group, name, masks, info):
     axes = list("tzyx" if info.dimensions == 3 else "tyx")
     indexes = [info.names.index(a) for a in axes]
     scale, offset = transform(info.ms, len(info.names))
-    array = output.create_array("0", data=masks.astype("u4"), chunks=(1,) + tuple(min(256, s) for s in masks.shape[1:]))
+    array = output.create_array("0", shape=masks.shape, dtype="u4", chunks=(1,) + tuple(min(256, s) for s in masks.shape[1:]))
+    for t in range(len(masks)):
+        array[t] = np.asarray(masks[t], dtype="u4")
     array.attrs["_ARRAY_DIMENSIONS"] = axes
     definitions = {a["name"]: a for a in info.ms["axes"] if isinstance(a, dict)}
     ms = {"version": "0.4", "name": name, "axes": [copy.deepcopy(definitions.get(a, {"name": a, "type": "time" if a == "t" else "space"})) for a in axes],

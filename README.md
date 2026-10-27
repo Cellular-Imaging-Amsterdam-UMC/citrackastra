@@ -1,13 +1,19 @@
 # CITrackastra
 
-**Calibrated 2D time-series plate tracking for OME-Zarr, Bilayers and BIOMERO.**
+**Calibrated 2D time-series tracking for OME-Zarr, Bilayers and BIOMERO.**
 
 CITrackastra uses [Trackastra](https://github.com/weigertlab/trackastra) to link
 existing instance segmentations across time. Segment upstream with
 [CISegmentation](https://github.com/Cellular-Imaging-Amsterdam-UMC/cisegmentation)
-or another instance model. Input is restricted to **NGFF HCS plates with 2D time
-series**: every field needs T ≥ 2, Z absent/singleton and calibrated XY pixels.
-Standalone images, static plates and volumes are rejected without projection.
+or another instance model. Input can be a **standalone NGFF timelapse image** or
+an **NGFF HCS plate with timelapses in its wells and fields**. Every image needs
+T ≥ 2, Z absent/singleton and calibrated XY pixels. Static images and volumes
+are rejected without projection. Standalone results remain standalone images;
+plate metadata and field boundaries are preserved for HCS inputs.
+
+The published `v0.1.1` image predates standalone support. Rebuild the workflow
+image from this source to use these changes; regenerating a BIOMERO job script
+does not update the code inside an existing container image.
 
 [Documentation & interactive examples](https://cellular-imaging-amsterdam-umc.github.io/citrackastra/)
 · [Dataset sources](docs/datasets.md) · [Validation](docs/validation.md)
@@ -37,7 +43,7 @@ verified before reuse. No model is silently downloaded during inference.
 
 Run `install_sam2.cmd` for the optional SAM2 feature runtime before selecting
 `--model general_2d_w_SAM2_features`. This model needs both its tracking checkpoint
-and the cached SAM2.1 backbone. All three models are restricted to 2D plate
+and the cached SAM2.1 backbone. All three models support 2D images and plate
 fields by this adapter, including the upstream CTC model.
 
 For your own segmented plate:
@@ -59,11 +65,11 @@ are rejected. See [the workflow reference](skills/use-citrackastra-workflow/refe
 
 ## Outputs
 
-One new result directory is published for each input plate:
+One new result directory is published for each input image or plate:
 
 ```text
-outputfolder/<plate>__citrackastra/
-  <plate>__citrackastra.ome.zarr/
+outputfolder/<input>__citrackastra/
+  <input>__citrackastra.ome.zarr/
   tracking.sqlite
   fields.csv
   tracks.csv
@@ -75,8 +81,8 @@ outputfolder/<plate>__citrackastra/
   movie.json          # optional
 ```
 
-**OME-Zarr + SQLite are the primary results.** The copied plate preserves all
-source pixels, original labels, plate/well metadata and calibration. Each field
+**OME-Zarr + SQLite are the primary results.** The copied store preserves all
+source pixels, original labels, calibration and any plate/well metadata. Each image or field
 receives `labels/<input_label>_tracks`. The SQLite database stores tracklets,
 observations, links, parentage, calibrated motion, schema identity and provenance.
 CSV exports support quick inspection; the movie supports visual review.
@@ -100,7 +106,7 @@ install_movie.cmd
 ```
 
 This uses the actual [Divisualisation](https://github.com/bentaculum/divisualisation/)
-`SpacetimeLift` engine in napari. It writes **two H.264 MP4s per input plate**:
+`SpacetimeLift` engine in napari. It writes **two H.264 MP4s per input image or plate**:
 `tracking_movie.mp4` shows conventional 2D trajectories, IDs and predicted division
 events; `spacetime_movie.mp4` shows the Divisualisation view. Each contains
 sequential segments for fields and label sets. A sweep reveals the
@@ -112,6 +118,8 @@ for display; source pixels remain unchanged.
 Windows renders using a hidden native Qt/OpenGL context. The Docker runtime
 includes Xvfb with Mesa/GLX for unattended Linux rendering. Movie dependencies
 are optional for a local Python installation when `--movie false` (the default).
+Movie rendering reads image and label frames lazily with bounded caching.
+Include the time needed for both films when setting a scheduler time limit.
 An isolated renderer can be selected with `CITRACKASTRA_MOVIE_PYTHON`.
 
 ## Bilayers, BIOMERO and model images
@@ -176,8 +184,12 @@ complete cell/nuclear masks. Training overlap means smoke runs are not independe
 biological accuracy benchmarks. Multi-field isolation has synthetic integration
 coverage.
 
-Inference currently holds each field's full time sequence in memory. Array
-preflight is conservative; graph/model costs are additional and density dependent.
+Image and label arrays are read and written in frame-sized chunks. Normalization
+uses the same global sampled percentiles as upstream Trackastra, and association
+still covers the full time sequence, including links across chunk boundaries.
+Unmatched detections are retained as singleton tracks without adding links.
+Array preflight accounts for frame buffers and the global percentile sample;
+graph/model costs are additional and density dependent.
 `--max-memory-gb` is not a hard RAM or VRAM limit. Inference uses the original
 pixel grid: calibrated output does not resample anisotropic pixels for the model.
 
