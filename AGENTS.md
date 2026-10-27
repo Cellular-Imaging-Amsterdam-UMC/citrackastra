@@ -4,7 +4,7 @@
 - Use `.venv/Scripts/python.exe` explicitly on Windows. Keep environments, models, public datasets and generated results out of Git.
 - Track existing instance labels; segmentation belongs upstream, for example in CISegmentation. Keep each image, HCS field and label set independent.
 - Track exactly one label per field. Match an optional name case-insensitively; when omitted, use the first entry in the NGFF label registry. For registry-free legacy stores, use deterministic alphabetical order. Reject missing or ambiguous names instead of falling back. `all` is a literal name, not a wildcard.
-- Accept only NGFF HCS plates with 2D time series. Every selected field must have T >= 2 and Z absent or singleton. Reject standalone images, static fields and volumes; never project them silently.
+- Accept standalone NGFF images and NGFF HCS plates with 2D time series. Every image or selected plate field must have T >= 2 and Z absent or singleton. Reject static images and volumes; never project them silently.
 - Optional movies include one conventional 2D tracking MP4 and one actual Divisualisation SpacetimeLift MP4 per input plate, with sequential field/label segments. Do not imply ground-truth error scoring without independently matched reference data. The lifted vertical axis is time, not physical Z.
 - Require verified, positive physical spatial calibration. Preserve anisotropic scales, ordered NGFF transforms and image origins. Never invent missing calibration or interpret TIFF DPI as micrometers.
 - Preserve source pixels and instance IDs. Write new stores, tracked labels and tables. Refuse existing destinations and publish results only after all fields succeed.

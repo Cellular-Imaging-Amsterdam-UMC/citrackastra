@@ -53,7 +53,7 @@ class Model:
         graph = nx.DiGraph()
         previous = None
         for t in range(len(masks)):
-            for value in np.unique(masks[t]):
+            for value in np.unique(np.asarray(masks[t])):
                 if value:
                     node = (t, int(value))
                     graph.add_node(node, time=t, label=int(value))
@@ -209,7 +209,7 @@ def test_cli_uses_numeric_values_and_rejects_unknown_options():
     assert parser().parse_args(["--movie"]).movie is True
 
 
-def test_standalone_time_series_is_rejected(tmp_path):
+def test_container_without_image_or_plate_metadata_is_rejected(tmp_path):
     source = tmp_path / "standalone.ome.zarr"
     root = zarr.open_group(str(source), mode="w", zarr_format=2)
     image(root)

@@ -31,11 +31,11 @@ NGFF 0.4 / Zarr v2 TCZYX fields, calibrated axes, embedded OME-XML and
 `labels/instances` from CTC TRA reference markers.
 
 Output inputs live under `publicdata/plates/`. Each movie is packaged as a
-**single-well (A/1), single-field (0) test plate** to satisfy this adapter's
-plate-only contract. This is a format wrapper, not an original multiwell screen;
+**single-well (A/1), single-field (0) test plate** to exercise HCS routing.
+The same workflow also accepts standalone timelapse images. This plate layout is a format wrapper, not an original multiwell screen;
 it does not alter pixels or invent acquisition calibration. Original ZIPs and
 provenance sidecars are retained. Synthetic tests separately exercise multiple
-fields, independent labels and rejected 3D/static/standalone inputs.
+fields, independent labels, standalone timelapses and rejected 3D/static inputs.
 
 TRA reference markers are often smaller than complete nuclear/cell masks.
 They isolate association and pipeline compatibility, not segmentation accuracy.

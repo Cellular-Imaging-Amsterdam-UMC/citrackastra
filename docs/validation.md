@@ -1,10 +1,73 @@
 # Local validation record
 
+## Standalone timelapse and frame I/O update — 27 October 2026
+
+The current source passed 50 automated tests, including standalone-image and
+multi-field HCS routing, source preservation, calibration/time/Z validation,
+global normalization equivalence and retention of unmatched detections.
+
+Real CUDA inference with `general_2d` and `greedy_nodiv` processed the same
+six-frame Fluo-N2DH-SIM+ input as an HCS field and a standalone NGFF image.
+Both produced 180 observations, 30 tracks and 150 links. Tracked pixels were
+identical between both layouts; source pixels and labels were preserved and
+SQLite integrity checks passed. Calibration was 0.125 micrometers/pixel and
+1740 seconds/frame, copied from the existing public-data provenance.
+The checkpoint archive SHA-256 was
+`35cefd8634860d1dd43bcdcbdef7ae0caa24445f19bcfd35ec6b19039f2cd876`.
+
+This is a compatibility check using CTC reference markers, not an independent
+accuracy benchmark. It does not establish completion of a production Slurm run.
+The published `v0.1.1` image still has the older plate-only implementation.
+
+The local Apptainer image `v0.1.1-local.20261027` also passed both input layouts
+with the real model and both requested movie outputs, without mounting source
+code over the image. Its SHA-256 is
+`6974a0b7bbef0926544fa9636c4dfdbdde93246924d0488a7c4d2453c4acec33`.
+Regenerating the BIOMERO job script preserves selection of this distinct image
+version. A full 700-frame BIOMERO run was submitted separately; its result is
+not claimed by these smoke checks.
+
+## Job 47 movie recovery — 27 October 2026
+
+The 700-frame standalone timelapse finished tracking before Slurm job 47
+timed out during movie postprocessing. SQLite integrity was `ok`, with 11,742
+tracks, 76,997 observations and 65,255 links over frames 0–699. Movie recovery
+used that existing database and the existing tracked labels; inference was not
+repeated. All tracking table rows and CSV bytes matched the pre-recovery backup.
+
+The movie renderer now caps the napari Dask cache, disables layer caching and
+periodically collects rendering objects. It closes its disposable viewer without
+reverting the spacetime lift: reverting first changes image/label dimensionality
+while the viewer still displays 3D, which can materialize the whole timelapse as
+a volume. The corrected full run remained around 0.7 GiB resident memory while
+rendering and exited successfully. Both MP4s decoded completely: 2,100 frames /
+175 seconds for the conventional view and 1,412 frames / 117.66 seconds for the
+spacetime view, both at 12 fps. No ground-truth accuracy claim is implied.
+
+All 50 automated tests passed after this correction. The rebuilt local image
+passed movie-only checks for both six-frame HCS and standalone outputs, without
+source binds or new tracking, and a CUDA device/allocation check. The image
+registered as `v0.1.1-local.20261027` now has SHA-256
+`3bbd74344a29cf2976f42da19036feed7ed25544ebdf4ae10764b578ba9f9087`.
+The earlier image above is retained separately as a recovery backup. The local
+deployment allows two hours for future tracking-plus-movie jobs.
+
+The recovered BIOMERO workflow also completed its local OMERO roundtrip.
+Image 201 in Dataset 51 (`Tracking`) has all 700 timepoints and exposes the new
+`labels_spots_channel_1_tracks` label set. The first and last source-image planes
+read through OMERO matched Image 153 exactly. The four OMERO tables were checked
+against the SQLite row counts above, and both complete MP4s, SQLite and JSON
+provenance were attached to the dataset. Slurm task 48 performed only result
+normalization; tracking was not repeated. Workflow history records completion
+of recovery while original Slurm job 47 retains its `TIMEOUT` accounting state.
+
+## Earlier release validation
+
 Verified on **25 October 2026** on Windows with Python 3.11.14.
 
 Device: **NVIDIA GeForce RTX 3060 (12 GB)**; PyTorch `2.11.0+cu126`; CUDA runtime `12.6`.
 
-- 24 automated tests passed with the final plate-only contract.
+- 24 automated tests passed for the original HCS-only release.
 - Both consumer skills passed the skill-creator frontmatter/resource validator.
 - The Bilayers descriptor generated CLI arguments accepted by the workflow parser.
 - Four English Pages documents, local links, gallery assets and theme controls passed static checks.

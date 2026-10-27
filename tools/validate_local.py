@@ -25,7 +25,7 @@ def main():
     parser.add_argument("--modes", nargs="+", choices=["greedy", "greedy_nodiv", "ilp"], default=["greedy"])
     parser.add_argument("--model-dir", default="models")
     parser.add_argument("--movie", action="store_true")
-    parser.add_argument("--inputs", nargs="+", type=Path, help="Explicit input plate stores instead of scanning the input directory")
+    parser.add_argument("--inputs", nargs="+", type=Path, help="Explicit standalone image or HCS plate stores instead of scanning the input directory")
     args = parser.parse_args()
     if args.device == "cuda" and not torch.cuda.is_available():
         parser.error("CUDA was requested but is unavailable; run install_cuda.cmd")
@@ -50,8 +50,10 @@ def main():
                 output = zarr.open_group(str(next(result.glob("*.ome.zarr"))), mode="r")
                 from citrackastra.ngff import image_groups
                 for field in image_groups(original):
-                    np.testing.assert_array_equal(original[f"{field}/0"][:], output[f"{field}/0"][:])
-                    np.testing.assert_array_equal(original[f"{field}/labels/instances/0"][:], output[f"{field}/labels/instances/0"][:])
+                    source_field = original[field] if field else original
+                    output_field = output[field] if field else output
+                    np.testing.assert_array_equal(source_field["0"][:], output_field["0"][:])
+                    np.testing.assert_array_equal(source_field["labels/instances/0"][:], output_field["labels/instances/0"][:])
                 with sqlite3.connect(result / "tracking.sqlite") as db:
                     counts = {table: db.execute(f"SELECT count(*) FROM {table}").fetchone()[0] for table in ("tracks", "observations", "links")}
                     assert counts["observations"] > 0

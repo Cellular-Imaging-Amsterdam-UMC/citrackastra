@@ -10,6 +10,7 @@ import json
 import os
 import sqlite3
 import colorsys
+import gc
 from importlib.metadata import version
 from pathlib import Path
 
@@ -33,6 +34,10 @@ def render(folder, fps, channel):
     from qtpy.QtCore import Qt
 
     from .ngff import inspect_image, sequence
+    import dask
+    dask.config.set(scheduler="synchronous")
+    from napari.utils import resize_dask_cache
+    resize_dask_cache(128 * 1024**2)
 
     folder = Path(folder)
     root = zarr.open_group(str(next(folder.glob("*.ome.zarr"))), mode="r", use_consolidated=False)
@@ -42,13 +47,13 @@ def render(folder, fps, channel):
     with sqlite3.connect(f"file:{(folder / 'tracking.sqlite').as_posix()}?mode=ro", uri=True) as db, imageio.get_writer(str(output), fps=fps, codec="libx264", pixelformat="yuv420p", macro_block_size=16) as writer, imageio.get_writer(str(tracking_output), fps=fps, codec="libx264", pixelformat="yuv420p", macro_block_size=16) as tracking_writer:
         fields = db.execute("SELECT field_id,image_path,source_label,output_label FROM fields ORDER BY field_id").fetchall()
         for field_id, path, source_label, output_label in fields:
-            group = root[path]
+            group = root[path] if path else root
             info = inspect_image(group)
-            imgs = sequence(group, info, channel)
-            masks = sequence(group[f"labels/{output_label}"], info)
+            imgs = sequence(group, info, channel, lazy=True)
+            masks = sequence(group[f"labels/{output_label}"], info, lazy=True)
             # Display-only normalization uses a bounded sample shared across time.
             stride = max(1, int(np.ceil((imgs.size / 1_000_000) ** (1 / 3))))
-            lo, hi = np.percentile(imgs[::stride, ::stride, ::stride], [1, 99.8])
+            lo, hi = np.percentile(np.asarray(imgs[::stride, ::stride, ::stride]), [1, 99.8])
             display = np.clip((imgs.astype("f4") - lo) / max(float(hi - lo), 1e-9), 0, 1)
             graph = nx.DiGraph()
             for t, value, y, x in db.execute("SELECT timepoint,source_label,y_px,x_px FROM observations WHERE field_id=?", (field_id,)):
@@ -65,7 +70,9 @@ def render(folder, fps, channel):
             event_frames = {int(row[0]) for row in db.execute("SELECT DISTINCT target_frame FROM links WHERE field_id=? AND kind='division'", (field_id,))}
             colors = {track_id: tuple(int(v * 255) for v in colorsys.hsv_to_rgb((track_id * .618034) % 1, .7, 1)) for track_id in paths}
             tracking_start = tracking_frames
+            print(f"Rendering 2D tracking movie: {len(imgs)} timepoints", flush=True)
             for t, plane in enumerate(display):
+                plane = np.asarray(plane)
                 frame_image = Image.fromarray((plane * 255).astype("u1")).convert("RGB")
                 drawing = ImageDraw.Draw(frame_image)
                 for track_id, points in paths.items():
@@ -90,6 +97,7 @@ def render(folder, fps, channel):
                 for _ in range(max(1, fps // 4)):
                     tracking_writer.append_data(np.asarray(frame))
                     tracking_frames += 1
+            print("Preparing spacetime viewer", flush=True)
             viewer = napari.Viewer(show=False)
             viewer.window._qt_window.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, True)
             viewer.window._qt_window.resize(1100, 850)
@@ -97,14 +105,15 @@ def render(folder, fps, channel):
             lift = None
             try:
                 viewer.theme = "dark"
-                viewer.add_image(display, name="Source", colormap="gray", contrast_limits=(0, 1), scale=(1, *info.scale))
-                viewer.add_labels(masks, name="Predicted trajectory masks", opacity=.20, scale=(1, *info.scale))
+                viewer.add_image(display, name="Source", colormap="gray", contrast_limits=(0, 1), scale=(1, *info.scale), cache=False)
+                viewer.add_labels(masks, name="Predicted trajectory masks", opacity=.20, scale=(1, *info.scale), cache=False)
                 if graph.number_of_nodes():
                     tracks, parents, _ = graph_to_napari_tracks(graph, include_z=False, drop_division_duplicates=False)
                     layer = viewer.add_tracks(tracks, graph=parents, name="Predicted tracks", tail_length=len(imgs), scale=(1, *info.scale))
                     layer.display_graph = False
                     lift_scale = max(imgs.shape[-2] * info.scale[-2], imgs.shape[-1] * info.scale[-1]) * .45 / max(1, len(imgs) - 1)
                     lift = SpacetimeLift(viewer, lift_scale=float(lift_scale))
+                    print("Applying spacetime lift", flush=True)
                     lift.apply({"pred": "Predicted tracks"})
                 viewer.reset_view()
                 if lift:
@@ -115,7 +124,8 @@ def render(folder, fps, channel):
                 sweep = np.linspace(0, len(imgs) - 1, max(len(imgs), fps * 3)).astype(int).tolist()
                 timeline = sweep + [len(imgs) - 1] * fps + list(reversed(sweep))
                 segment_start = frames_written
-                for t in timeline:
+                print(f"Rendering spacetime movie: {len(timeline)} frames", flush=True)
+                for frame_index, t in enumerate(timeline):
                     viewer.dims.set_current_step(0, int(t))
                     application.processEvents()
                     screenshot = viewer.screenshot(canvas_only=True, flash=False)
@@ -128,10 +138,14 @@ def render(folder, fps, channel):
                     draw.text((16, 32), f"2D+t spacetime view: vertical axis = time, not physical Z. XY: {info.scale[-2]:g}, {info.scale[-1]:g} um/pixel", fill=(239, 164, 195))
                     writer.append_data(np.asarray(frame))
                     frames_written += 1
+                    if frame_index % 25 == 0:
+                        gc.collect()
+                        print(f"Spacetime frame {frame_index + 1}/{len(timeline)}", flush=True)
                 segments.append({"field_id": field_id, "image_path": path, "source_label": source_label, "start_movie_frame": segment_start, "end_movie_frame": frames_written - 1, "tracking_start_frame": tracking_start, "tracking_end_frame": tracking_frames - 1, "predicted_division_frames": sorted(event_frames)})
             finally:
-                if lift:
-                    lift.revert()
+                # This viewer is disposable. Reverting the lift first changes
+                # image/label ndim while the viewer still displays 3D, causing
+                # napari to materialize the entire time series as a volume.
                 viewer.close()
     if not frames_written or output.stat().st_size == 0:
         raise RuntimeError("No movie frames were rendered")

@@ -15,12 +15,14 @@ from pathlib import Path
 from uuid import uuid4
 
 import numpy as np
+import dask
 import psutil
 import zarr
 
 from . import __version__
 from .models import MODELS, load_model, verify_model
 from .ngff import check_label_alignment, image_groups, inspect_image, label_names, sequence, write_tracked
+from .streaming import normalize_sequence, working_bytes, retain_unlinked_instances
 
 
 @dataclass
@@ -70,11 +72,13 @@ def write_tables(db, field_id, graph, source_masks, tracked, tracklets, info):
 
     positions, observations, track_points = {}, {}, {}
     for t, frame in enumerate(source_masks):
+        frame = np.asarray(frame)
+        tracked_frame = np.asarray(tracked[t])
         for region in regionprops(frame):
             key = (t, int(region.label))
             pixel = np.asarray(region.centroid)
             physical = pixel * info.scale + info.offset
-            output_values = np.unique(tracked[t][tuple(region.coords.T)])
+            output_values = np.unique(tracked_frame[tuple(region.coords.T)])
             if len(output_values) != 1 or output_values[0] == 0:
                 raise RuntimeError(f"Source object {key} is absent or split in the result")
             track_id = int(output_values[0])
@@ -123,6 +127,12 @@ def export_csv(db, folder):
 
 
 def run_store(source, output_dir, settings, *, model=None, log=print):
+    # Bound concurrent frame decoding, including upstream Dask computations.
+    with dask.config.set(scheduler="synchronous"):
+        return _run_store(source, output_dir, settings, model=model, log=log)
+
+
+def _run_store(source, output_dir, settings, *, model=None, log=print):
     settings.validate()
     if settings.movie:
         from .movie import check_renderer
@@ -160,9 +170,7 @@ def run_store(source, output_dir, settings, *, model=None, log=print):
             array = check_label_alignment(group, group[f"labels/{label}"], info)
             if f"{label}_tracks" in group["labels"]:
                 raise FileExistsError(f"Tracked label already exists: {path}/{label}_tracks")
-            spatial_size = math.prod(size for axis, size in zip(info.names, info.shape) if axis != "c")
-            # Arrays, normalized pixels, relabelled masks and working memory; graph costs are data dependent.
-            estimate = spatial_size * (32 + array.dtype.itemsize)
+            estimate = working_bytes(info.shape, info.names, array.dtype.itemsize, settings.workers)
             budget = min(settings.max_memory_gb * 1024**3, psutil.virtual_memory().available * .6)
             if estimate > budget:
                 raise MemoryError(f"{path or '/'} needs at least {estimate / 1024**3:.2f} GiB working memory; split the sequence or raise --max-memory-gb")
@@ -189,15 +197,17 @@ def run_store(source, output_dir, settings, *, model=None, log=print):
         for field_id, (path, label, info) in enumerate(jobs, 1):
             group = root[path] if path else root
             log(f"Tracking {path or '/'} / {label} with {settings.model} ({settings.mode})")
-            imgs = sequence(group, info, settings.channel)
-            masks = sequence(group[f"labels/{label}"], info)
+            imgs = sequence(group, info, settings.channel, lazy=True)
+            masks = sequence(group[f"labels/{label}"], info, lazy=True)
             if imgs.shape != masks.shape or np.any(masks < 0):
                 raise ValueError("Image/mask shapes differ or masks contain negative labels")
             if not np.isfinite(imgs).all():
                 raise ValueError("Image contains nonfinite intensities")
             if settings.model == "general_2d_w_SAM2_features":
                 model.imgs_path = stage / "_feature_cache" / str(field_id)
-            graph, _ = model.track(imgs, masks, mode=settings.mode, n_workers=settings.workers, batch_size=settings.batch_size)
+            graph, _ = model.track(normalize_sequence(imgs), masks, normalize_imgs=False, mode=settings.mode, n_workers=settings.workers, batch_size=settings.batch_size)
+            singleton_count = retain_unlinked_instances(graph, masks)
+            log(f"Retained {singleton_count} unmatched detections as singleton tracks; inferred links unchanged")
             if any(graph.out_degree(n) > 2 or graph.in_degree(n) > 1 for n in graph):
                 raise RuntimeError("Tracking graph contains a nonbinary division or unsupported merge")
             if any(int(graph.nodes[b]["time"]) <= int(graph.nodes[a]["time"]) for a, b in graph.edges):
@@ -223,7 +233,8 @@ def run_store(source, output_dir, settings, *, model=None, log=print):
                   "fields": summaries, "runtime_seconds": time.perf_counter() - started,
                   "coordinate_convention": "integer pixel centers; calibrated NGFF scale and translation",
                   "inference_coordinates": "original pixel grid (no physical resampling)",
-                  "limitations": "In-memory sequence inference; no claim of biological accuracy or production OMERO roundtrip validation."}
+                  "execution": {"image_io": "lazy frame chunks", "normalization": "upstream global sampled percentiles", "split_tracking": False},
+                  "limitations": "Feature and graph memory depends on detection density; no claim of biological accuracy or production OMERO roundtrip validation."}
         db.execute("INSERT INTO schema_info VALUES (?,?)", ("output_store_uuid", report["output_store_uuid"]))
         for key, value in report.items():
             db.execute("INSERT INTO run VALUES (?,?)", (key, json.dumps(value)))

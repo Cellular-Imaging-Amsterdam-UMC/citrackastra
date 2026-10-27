@@ -1,0 +1,37 @@
+Bootstrap: localimage
+From: {{BASE_IMAGE}}
+
+# Extend the complete installed image, preserving its dependencies and weights.
+# Build with --build-arg BASE_IMAGE=/absolute/base.sif and SOURCE_ROOT=/source.
+%files
+    {{SOURCE_ROOT}}/pyproject.toml /opt/citrackastra/pyproject.toml
+    {{SOURCE_ROOT}}/README.md /opt/citrackastra/README.md
+    {{SOURCE_ROOT}}/config.yaml /opt/citrackastra/config.yaml
+    {{SOURCE_ROOT}}/citrackastra/__init__.py /opt/citrackastra/citrackastra/__init__.py
+    {{SOURCE_ROOT}}/citrackastra/cli.py /opt/citrackastra/citrackastra/cli.py
+    {{SOURCE_ROOT}}/citrackastra/models.py /opt/citrackastra/citrackastra/models.py
+    {{SOURCE_ROOT}}/citrackastra/ngff.py /opt/citrackastra/citrackastra/ngff.py
+    {{SOURCE_ROOT}}/citrackastra/workflow.py /opt/citrackastra/citrackastra/workflow.py
+    {{SOURCE_ROOT}}/citrackastra/streaming.py /opt/citrackastra/citrackastra/streaming.py
+    {{SOURCE_ROOT}}/citrackastra/movie.py /opt/citrackastra/citrackastra/movie.py
+    {{SOURCE_ROOT}}/citrackastra/movie_renderer.py /opt/citrackastra/citrackastra/movie_renderer.py
+
+%post
+    set -eu
+    cd /opt/citrackastra
+    python -m pip install --no-cache-dir --no-deps --no-build-isolation .
+    python -m pip check
+    python -m compileall -q citrackastra
+
+%test
+    set -eu
+    cd /opt/citrackastra
+    python -c 'from types import SimpleNamespace; from citrackastra.ngff import image_groups; from citrackastra.streaming import working_bytes; assert image_groups(SimpleNamespace(attrs={"multiscales": [{"version": "0.4"}]})) == [""]; assert working_bytes((700,1,1,1000,1000), list("tczyx"), 4) < 4*1024**3; print("Standalone image and lazy frame I/O are installed")'
+
+%runscript
+    echo "CITrackastra local source: standalone timelapse and HCS support; lazy frame I/O"
+    exec /usr/bin/tini -g -- /opt/citrackastra/movie_entrypoint.sh "$@"
+
+%labels
+    org.biomero.citrackastra.adapter standalone-timelapse-lazy-io
+    org.biomero.citrackastra.source https://github.com/Cellular-Imaging-Amsterdam-UMC/citrackastra

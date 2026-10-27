@@ -16,7 +16,7 @@ def write_record(source):
     (ROOT / "docs/assets/validation.json").write_text(json.dumps(public, indent=2), encoding="utf-8")
     lines = ["# Local validation record", "", "Verified on **25 October 2026** on Windows with Python 3.11.14.", "",
              f"Device: **{report['device']} (12 GB)**; PyTorch `{report['torch']}`; CUDA runtime `{report['cuda_runtime']}`.", "",
-             "- 24 automated tests passed with the final plate-only contract.",
+             "- 24 automated tests passed for the original HCS-only release.",
              "- Both consumer skills passed the skill-creator frontmatter/resource validator.",
              "- The Bilayers descriptor generated CLI arguments accepted by the workflow parser.",
              "- Four English Pages documents, local links, gallery assets and theme controls passed static checks.",
