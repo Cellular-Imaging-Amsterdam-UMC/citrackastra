@@ -226,12 +226,8 @@ def _run_store(source, output_dir, settings, *, model=None, log=print):
                 raise RuntimeError("Feature cache is outside the current result staging directory")
             model.feature_extractor = None
             shutil.rmtree(feature_cache)
-        # The current source result takes precedence over inherited provenance.
-        source_biomero = dict(root.attrs.get("biomero", {}))
-        source_identity = (source_biomero["result"] if "result" in source_biomero else
-                           root.attrs.get("citrackastra", root.attrs.get("cisegmentation", {})))
         report = {"workflow": "CITrackastra", "schema_version": 1, "output_store_uuid": str(uuid4()),
-                  "source_store_uuid": dict(source_identity).get("output_store_uuid"),
+                  "source_store_uuid": dict(root.attrs.get("cisegmentation", {})).get("output_store_uuid"),
                   "version": __version__, "trackastra_version": version("trackastra"),
                   "status": "complete", "source": str(source), "settings": asdict(settings), "model": manifest,
                   "fields": summaries, "runtime_seconds": time.perf_counter() - started,
@@ -252,9 +248,6 @@ def _run_store(source, output_dir, settings, *, model=None, log=print):
         db.close()
         db = None
         target.attrs["citrackastra"] = report
-        # Replace the inherited result identity; retain unrelated BIOMERO metadata.
-        target.attrs["biomero"] = {**source_biomero, "result": {
-            "schema_version": 1, "output_store_uuid": report["output_store_uuid"]}}
         (stage / "provenance.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
         # All result artifacts publish together by a same-filesystem directory rename.
         stage.rename(final)

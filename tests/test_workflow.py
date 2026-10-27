@@ -69,10 +69,6 @@ def test_field_roundtrip_retains_pixels_labels_and_physical_positions(tmp_path, 
     source = tmp_path / "source.ome.zarr"
     root = zarr.open_group(str(source), mode="w", zarr_format=2)
     group, canonical, masks = image(root, dimensions=dimensions, order=order)
-    source_uuid = "7e8e11f8-f575-4382-aaac-32372c14545f"
-    root.attrs["biomero"] = {"other": "preserved", "result": {
-        "schema_version": 1, "output_store_uuid": source_uuid}}
-    root.attrs["cisegmentation"] = {"output_store_uuid": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"}
     result = run_store(source, tmp_path / "out", Settings(model="ctc"), model=Model())
     output = zarr.open_group(str(next(result.glob("*.ome.zarr"))), mode="r")
     output_field = output["A/1/0"]
@@ -81,14 +77,6 @@ def test_field_roundtrip_retains_pixels_labels_and_physical_positions(tmp_path, 
     assert output_field["labels/instances_tracks/0"].shape == (3, 16, 20)
     assert "instances_tracks" not in group["labels"]
     with sqlite3.connect(result / "tracking.sqlite") as db:
-        identity = output.attrs["biomero"]["result"]
-        assert identity["schema_version"] == 1
-        assert identity["output_store_uuid"] != source_uuid
-        assert identity["output_store_uuid"] == db.execute("SELECT value FROM schema_info WHERE key='output_store_uuid'").fetchone()[0]
-        assert identity["output_store_uuid"] == output.attrs["citrackastra"]["output_store_uuid"]
-        assert output.attrs["citrackastra"]["source_store_uuid"] == source_uuid
-        assert output.attrs["biomero"]["other"] == "preserved"
-        assert root.attrs["biomero"]["result"]["output_store_uuid"] == source_uuid
         assert db.execute("SELECT observation_count,path_length_um,displacement_um,mean_speed FROM tracks").fetchone() == pytest.approx((3, .5, .5, .05))
         physical = db.execute("SELECT y_um,x_um,time FROM observations ORDER BY timepoint LIMIT 1").fetchone()
         assert physical == pytest.approx((8.75, 12.125, 10.))
